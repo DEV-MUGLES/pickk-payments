@@ -42,14 +42,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: Install project dependencies
-        if: |
-          steps.npm-cache.outputs.cache-hit != 'true' ||
-          steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: npm install
-
       - name: Install project dependencies (global)
-        run: npm install
+        run: |
+          cd ..
+          npm install
 
       - name: Install project dependencies
         if: |
