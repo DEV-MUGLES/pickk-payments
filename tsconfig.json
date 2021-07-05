@@ -22,16 +22,13 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowJs": false,
-    "rootDir": "./lib",
-    "paths": {
-      "lib": ["./lib"],
-      "@pickk/pay": ["./lib"]
-    }
+    "rootDir": "."
   },
   "references": [
     { "path": "libraries/pickk-pay-sdk" },
     { "path": "services/pickk-pay-client" },
     { "path": "services/pickk-pay-server" }
   ],
+  "include": ["**/*.ts", "*.tsx"],
   "exclude": ["node_modules", "dist", "*.d.ts"]
 }
