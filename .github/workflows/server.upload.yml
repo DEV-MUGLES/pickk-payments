@@ -19,9 +19,6 @@ jobs:
         with:
           fetch-depth: 0 # 👈 Required to retrieve git history
 
-      - name: Move directory
-        run: cd services/pickk-pay-server
-
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
