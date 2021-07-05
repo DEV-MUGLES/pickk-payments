@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "module": "commonjs",
+    // Ensure that .d.ts files are created by tsc, but not .js files
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    // Ensure that Babel can safely transpile files in the TypeScript project
+    "isolatedModules": true,
+    "noImplicitAny": false,
+    "noUnusedLocals": false,
+    "removeComments": false,
+    "noLib": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es6",
+    "sourceMap": false,
+    "allowJs": false,
+    "rootDir": "./lib",
+    "outDir": "./dist",
+    "lib": ["es2017", "DOM"],
+    "baseUrl": "./",
+    "paths": {
+      "lib": ["./lib"],
+      "@pickk/pay": ["./lib"]
+    }
+  },
+  "include": ["lib", "tests"],
+  "exclude": ["node_modules", "**/*.spec.ts", "dist"]
+}

@@ -1,0 +1,4 @@
+{
+  "extends": "next",
+  "project": "./tsconfig.json"
+}
