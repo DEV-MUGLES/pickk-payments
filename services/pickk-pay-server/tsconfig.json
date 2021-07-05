@@ -12,6 +12,7 @@
     "baseUrl": "./",
     "incremental": true,
     "paths": {
+      "@common/*": ["src/common/*"],
       "@config/*": ["src/config/*"],
       "@providers/*": ["src/providers/*"],
       "@payments/*": ["src/modules/payments/*"],
