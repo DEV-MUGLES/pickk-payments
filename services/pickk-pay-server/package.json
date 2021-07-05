@@ -87,6 +87,16 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "@src/(.*)$": "<rootDir>/$1",
+      "@config/(.*)$": [
+        "<rootDir>/config/$1"
+      ],
+      "@providers/(.*)$": [
+        "<rootDir>/providers/$1"
+      ],
+      "@item/(.*)$": "<rootDir>/modules/payments/$1"
+    }
   }
 }
