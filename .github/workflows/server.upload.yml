@@ -10,6 +10,9 @@ jobs:
     name: Upload (server)
     runs-on: ubuntu-18.04
     environment: production
+    defaults:
+      run:
+        working-directory: ./services/pickk-pay-server
 
     steps:
       - uses: actions/checkout@v2

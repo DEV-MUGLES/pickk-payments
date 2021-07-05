@@ -9,9 +9,12 @@ on:
       - services/pickk-pay-server/**
 
 jobs:
-  build:
+  build-server:
     name: CI(server)
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./services/pickk-pay-server
 
     strategy:
       matrix:
@@ -21,9 +24,6 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0 # 👈 Required to retrieve git history
-
-      - name: Move directory
-        run: cd services/pickk-pay-server
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
@@ -47,6 +47,11 @@ jobs:
           steps.npm-cache.outputs.cache-hit != 'true' ||
           steps.cache-node-modules.outputs.cache-hit != 'true'
         run: npm install
+
+      - name: Install project dependencies (global)
+        run: |
+          cd ..
+          npm install
 
       - name: Format check
         run: npm run format
