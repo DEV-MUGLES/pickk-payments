@@ -21,7 +21,7 @@ const inicisMobVbankNotiHandler = async (req: NowRequest, res: NowResponse) => {
     throw new BadRequestException('입금되지 않은 거래건입니다.');
   }
 
-  const transaction = await Inicis.getTransaction(payload.P_OID);
+  const transaction = await Inicis.getTransaction(null, payload.P_OID);
 
   // 거래 조회 실패함
   if (transaction.resultCode !== '00') {

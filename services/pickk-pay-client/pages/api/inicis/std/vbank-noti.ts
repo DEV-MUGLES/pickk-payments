@@ -24,7 +24,7 @@ const inicisStdVbankNotiHandler = async (req: NowRequest, res: NowResponse) => {
     );
   }
 
-  const transaction = await Inicis.getTransaction(payload.no_oid);
+  const transaction = await Inicis.getTransaction(null, payload.no_oid);
 
   // 거래 조회 실패함
   if (transaction.resultCode !== '00') {
