@@ -61,7 +61,7 @@ export class Pay {
       origin: location.href,
       requestId,
     };
-    frame.iframe.contentWindow.postMessage(obj, Pay.serviceUrl);
+    frame.iframe.contentWindow?.postMessage(obj, Pay.serviceUrl);
 
     Pay.focus(key);
     Pay.open(frame.iframe);
@@ -77,7 +77,7 @@ export class Pay {
     const { data } = e;
 
     if (data.action === 'inicis.mobile') {
-      submitMobile(data.data.formData);
+      data.data.formData && submitMobile(data.data.formData);
       isMobile() && Pay.close();
       return;
     }
@@ -179,7 +179,7 @@ export class Pay {
         from: 'ppay-sdk',
       };
 
-      iframe.contentWindow.postMessage(obj, Pay.serviceUrl);
+      iframe.contentWindow?.postMessage(obj, Pay.serviceUrl);
     }
   }
 

@@ -1,5 +1,5 @@
 {
-  "name": "pickk-pay-server",
+  "name": "pickk-pay-client",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
