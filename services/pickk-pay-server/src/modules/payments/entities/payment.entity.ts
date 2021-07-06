@@ -8,6 +8,7 @@ import {
   IsPhoneNumber,
   IsPostalCode,
   IsString,
+  MaxLength,
 } from 'class-validator';
 import { PayMethod, Pg, IPayment, PaymentStatus } from '@pickk/pay';
 import { InicisBankCode, InicisCardCode } from 'inicis';
@@ -30,7 +31,7 @@ export class Payment extends BaseIdEntity implements IPayment {
   public cancel(dto: CancelPaymentDto): PaymentCancellation {
     CancelPaymentDto.validate(dto, this);
 
-    return new PaymentCancellation();
+    return new PaymentCancellation(dto);
   }
 
   constructor(attributes?: Partial<Payment>) {
@@ -106,11 +107,13 @@ export class Payment extends BaseIdEntity implements IPayment {
     length: 20,
   })
   @IsString()
+  @MaxLength(20)
   buyerName: string;
 
   @Column({ type: 'char', length: 11 })
   @IsPhoneNumber('KR')
   @IsNumberString()
+  @MaxLength(11)
   buyerTel: string;
 
   @Column()
@@ -120,6 +123,7 @@ export class Payment extends BaseIdEntity implements IPayment {
   @Column({ type: 'char', length: 6 })
   // @TODO: https://github.com/validatorjs/validator.js/pull/1628 가 머지 및 release 완료되면 국가코드 'KR'로 변경하기!
   @IsPostalCode('DE')
+  @MaxLength(6)
   buyerPostalcode: string;
 
   @Column()
@@ -165,6 +169,7 @@ export class Payment extends BaseIdEntity implements IPayment {
 
   @Column({ length: 15, nullable: true })
   @IsString()
+  @MaxLength(15)
   @IsOptional()
   vbankHolder?: string;
 

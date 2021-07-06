@@ -1,7 +1,14 @@
 import { Column, Entity, ManyToOne } from 'typeorm';
 import { IPaymentCancellation, PaymentCancellationType } from '@pickk/pay';
 import { InicisBankCode } from 'inicis';
-import { IsEnum, IsNumber, IsOptional, IsString, Min } from 'class-validator';
+import {
+  IsEnum,
+  IsNumber,
+  IsOptional,
+  IsString,
+  MaxLength,
+  Min,
+} from 'class-validator';
 
 import { BaseIdEntity } from '@common/entities/base-id.entity';
 import { Payment } from './payment.entity';
@@ -44,6 +51,7 @@ export class PaymentCancellation
 
   @Column({ length: 30 })
   @IsString()
+  @MaxLength(30)
   reason: string;
 
   @ManyToOne('Payment', 'cancellations', {
@@ -83,6 +91,7 @@ export class PaymentCancellation
 
   @Column({ length: 15, nullable: true })
   @IsString()
+  @MaxLength(15)
   @IsOptional()
   refundVbankHolder?: string;
 }

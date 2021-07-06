@@ -1,19 +1,22 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { getManager } from 'typeorm';
 import { plainToClass } from 'class-transformer';
 
-import { parseFilter } from '@common/helpers/filter.helpers';
+import { parseFilter } from '@common/helpers';
+import { InicisService } from '@inicis/inicis.service';
 
-import { PaymentFilter } from './dtos/payment.filter';
-import { Payment } from './entities/payment.entity';
+import { CancelPaymentDto, PaymentFilter } from './dtos';
+import { Payment } from './entities';
 import { PaymentsRepository } from './payments.repository';
-import { CancelPaymentDto } from './dtos';
 
 @Injectable()
 export class PaymentsService {
   constructor(
     @InjectRepository(PaymentsRepository)
     private readonly paymentsRepository: PaymentsRepository,
+    @Inject(InicisService)
+    private readonly inicisService: InicisService,
   ) {}
 
   async findOne(
@@ -39,6 +42,15 @@ export class PaymentsService {
   }
 
   async cancel(payment: Payment, cancelPaymentDto: CancelPaymentDto) {
-    payment.cancel(cancelPaymentDto);
+    const cancellation = payment.cancel(cancelPaymentDto);
+
+    await getManager().transaction(async (manager) => {
+      await manager.save(cancellation);
+
+      await this.inicisService.cancel({
+        payment,
+        ...cancelPaymentDto,
+      });
+    });
   }
 }

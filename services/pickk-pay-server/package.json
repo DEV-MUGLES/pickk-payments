@@ -112,7 +112,8 @@
       "@providers/(.*)$": [
         "<rootDir>/providers/$1"
       ],
-      "@item/(.*)$": "<rootDir>/modules/payments/$1"
+      "@inicis/(.*)$": "<rootDir>/modules/inicis/$1",
+      "@payments/(.*)$": "<rootDir>/modules/payments/$1"
     }
   }
 }
