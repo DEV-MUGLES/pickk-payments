@@ -1,4 +1,4 @@
-import { Column, Entity, Index } from 'typeorm';
+import { Column, Entity, Index, JoinColumn, OneToMany } from 'typeorm';
 import {
   IsNumberString,
   IsPhoneNumber,
@@ -9,6 +9,7 @@ import { PayMethod, Pg, IPayment, PaymentStatus } from '@pickk/pay';
 import { InicisBankCode, InicisCardCode } from 'inicis';
 
 import { BaseIdEntity } from '@common/entities/base-id.entity';
+import { PaymentCancellation } from './payment-cancellation.entity';
 
 @Entity('payment')
 @Index('id_merchant-uid', ['merchantUid'])
@@ -153,4 +154,10 @@ export class Payment extends BaseIdEntity implements IPayment {
 
   @Column({ type: 'timestamp', nullable: true })
   cancelledAt?: Date;
+
+  @OneToMany('PaymentCancellation', 'payment', {
+    cascade: true,
+  })
+  @JoinColumn()
+  cancellations: PaymentCancellation[];
 }

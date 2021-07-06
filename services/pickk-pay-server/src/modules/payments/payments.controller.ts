@@ -19,7 +19,11 @@ export class PaymentsController {
     @Query() paymentFilter: PaymentFilter,
     @Query() pageParams: PageParams,
   ): Promise<PaymentListResponseDto> {
-    const payments = await this.paymentsService.list(paymentFilter, pageParams);
+    const payments = await this.paymentsService.list(
+      paymentFilter,
+      pageParams,
+      ['cancellations'],
+    );
     const pgCount = {
         [Pg.Inicis]: 0,
       },
