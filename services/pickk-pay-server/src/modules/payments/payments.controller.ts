@@ -55,7 +55,7 @@ export class PaymentsController {
 
       const { Ready, Failed, Cancelled, PartialCancelled } = PaymentStatus;
 
-      if (status === Ready || status === Failed) {
+      if (status !== Ready && status !== Failed) {
         amounts.totalPaidAmount += amount;
       }
 
