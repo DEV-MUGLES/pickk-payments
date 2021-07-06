@@ -1,7 +1,5 @@
 import { Controller, Get, Inject, Query } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
-
-import { PageParams } from '@common/dtos/pagination.dto';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { PaymentListResponseDto, PaymentFilter } from './dtos';
 import { PaymentsService } from './payments.service';
@@ -13,16 +11,14 @@ export class PaymentsController {
     @Inject(PaymentsService) private readonly paymentsService: PaymentsService,
   ) {}
 
+  @ApiOperation({ description: '결제 목록을 반환합니다.' })
   @Get()
   async list(
     @Query() paymentFilter: PaymentFilter,
-    @Query() pageParams: PageParams,
   ): Promise<PaymentListResponseDto> {
-    const payments = await this.paymentsService.list(
-      paymentFilter,
-      pageParams,
-      ['cancellations'],
-    );
+    const payments = await this.paymentsService.list(paymentFilter, [
+      'cancellations',
+    ]);
     return PaymentListResponseDto.of(payments);
   }
 }

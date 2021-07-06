@@ -43,10 +43,6 @@ export const parseFilter = (filter: unknown, idFilter: any = {}) => {
   }
 
   const newFilter = Object.keys(filter ?? {}).reduce((acc, key) => {
-    if (['limit', 'offset', 'startId'].includes(key)) {
-      return acc;
-    }
-
     const value = filter[key];
     if (isFilter(value)) {
       return { ...acc, [key]: parseFilter(value, {}) };
