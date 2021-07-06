@@ -6,6 +6,16 @@ import { IPayment } from '@payments/interfaces/payment.interface';
 import { PayMethod, Pg } from '@pickk/pay';
 
 export class PaymentFilter implements Partial<IPayment> {
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  merchantUid?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  pgTid?: string;
+
   @ApiProperty({
     type: [Pg],
     required: false,
@@ -63,5 +73,5 @@ export class PaymentFilter implements Partial<IPayment> {
   @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
-  buyerTel?: string;
+  buyerTelSearch?: string;
 }
