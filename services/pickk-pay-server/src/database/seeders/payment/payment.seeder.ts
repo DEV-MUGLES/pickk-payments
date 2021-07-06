@@ -84,7 +84,7 @@ export class PaymentSeeder {
       const vbankCode = getRandomEnumValue(InicisBankCode) as InicisBankCode;
       return {
         vbankCode,
-        vbankName: getInicisBankCodeDisplayName(vbankCode),
+        vbankName: getInicisBankCodeDisplayName(vbankCode).slice(0, 15),
         vbankNum: faker.phone.phoneNumber('######-##-######'),
         vbankHolder: faker.name.findName(),
         vbankDate: faker.date.past().toString(),
