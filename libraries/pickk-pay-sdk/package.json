@@ -1,6 +1,6 @@
 {
   "name": "@pickk/pay",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "PICKK Payment module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/DEV-MUGLES/pickk-payments#readme",
   "scripts": {
-    "build": "rimraf -rf dist && babel lib --out-dir dist --extensions '.ts' && tsc",
+    "build": "rimraf -rf dist && babel lib --out-dir dist --extensions '.ts' && tsc -p ./tsconfig.json",
     "format": "prettier --write **/*.{ts,json} --ignore-path ./.prettierignore",
     "lint": "eslint \"lib/**/*.ts\" --fix",
     "type-check": "tsc --noEmit --emitDeclarationOnly false",
