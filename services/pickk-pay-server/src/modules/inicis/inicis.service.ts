@@ -1,5 +1,6 @@
 import { HttpService, Inject, Injectable } from '@nestjs/common';
 import { IniapiRefundResult } from 'inicis';
+import * as qs from 'querystring';
 
 import { IniapiClient } from './clients';
 import { InicisCancelDto } from './dtos';
@@ -15,7 +16,7 @@ export class InicisService {
     const { data: result } = await this.httpService
       .post<IniapiRefundResult>(
         'https://iniapi.inicis.com/api/v1/refund',
-        params,
+        qs.stringify(params),
         {
           headers: {
             'Content-type': 'application/x-www-form-urlencoded',

@@ -48,6 +48,7 @@
     "@pickk/pay": "^1.0.18",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
+    "dayjs": "^1.10.6",
     "inicis": "^1.2.6",
     "joi": "^17.4.0",
     "mysql": "^2.18.1",
