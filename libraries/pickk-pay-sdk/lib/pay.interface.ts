@@ -252,3 +252,18 @@ export interface IPayment {
   paidAt?: Date;
   cancelledAt?: Date;
 }
+
+export enum PaymentCancellationType {
+  Cancel = 'cancel',
+  PatialCancel = 'partial_cancel',
+}
+
+export interface IPaymentCancellation {
+  id: number;
+  createdAt: Date;
+  updatedAt: Date;
+
+  type: PaymentCancellationType;
+  amount: number;
+  reason: string;
+}
