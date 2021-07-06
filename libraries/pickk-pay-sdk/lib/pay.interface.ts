@@ -246,6 +246,8 @@ export interface IPayment {
   vbankHolder?: string;
   vbankDate?: string;
 
+  cancellations?: IPaymentCancellation[];
+
   createdAt: Date;
   updatedAt: Date;
   failedAt?: Date;
