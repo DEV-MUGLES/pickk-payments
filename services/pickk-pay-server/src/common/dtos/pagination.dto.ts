@@ -29,11 +29,11 @@ export class PageParams {
   }
 
   get pageFilter() {
-    if (this.offset === undefined) {
+    if (this.offset === undefined && this.limit === undefined) {
       return {};
     }
     return {
-      skip: this.offset,
+      skip: this.offset || 0,
       take: this.limit || 20,
     };
   }
