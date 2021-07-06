@@ -54,10 +54,10 @@ export const parseFilter = (filter: unknown, idFilter: any = {}) => {
     if (['search', 'searchFields'].includes(key)) {
       return acc;
     }
-    if (/In$/.test(key) && isArray(value)) {
+    if (/In$/.test(key)) {
       return {
         ...acc,
-        [key.replace(/In$/, '')]: In(value),
+        [key.replace(/In$/, '')]: In([].concat(value)),
       };
     }
     if (/Between$/.test(key) && isArray(value)) {

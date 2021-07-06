@@ -3,24 +3,32 @@ import { IsDate, IsEnum, IsOptional, IsString } from 'class-validator';
 
 import { PaymentStatus } from '@payments/constants/payment.enum';
 import { IPayment } from '@payments/interfaces/payment.interface';
-import { Pg } from '@pickk/pay';
+import { PayMethod, Pg } from '@pickk/pay';
 
 export class PaymentFilter implements Partial<IPayment> {
   @ApiProperty({
-    enum: Pg,
+    type: [Pg],
     required: false,
   })
   @IsOptional()
-  @IsEnum(Pg)
-  pg?: Pg;
+  @IsEnum(Pg, { each: true })
+  pgIn?: Pg[];
 
   @ApiProperty({
-    enum: PaymentStatus,
+    type: [PayMethod],
     required: false,
   })
   @IsOptional()
-  @IsEnum(PaymentStatus)
-  status?: PaymentStatus;
+  @IsEnum(PayMethod, { each: true })
+  payMethodIn?: PayMethod[];
+
+  @ApiProperty({
+    type: [PaymentStatus],
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(PaymentStatus, { each: true })
+  statusIn?: PaymentStatus[];
 
   @ApiProperty({ required: false })
   @IsOptional()
