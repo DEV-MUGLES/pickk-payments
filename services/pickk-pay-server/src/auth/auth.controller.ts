@@ -1,13 +1,25 @@
-import { Controller, HttpCode, Inject, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Inject,
+  NotFoundException,
+  Post,
+} from '@nestjs/common';
+
 import { AuthService } from './auth.service';
+import { SignInDto } from './dtos/jwt.dto';
+import { Public } from './is-public.decorator';
 
 @Controller('/auth')
 export class AuthController {
   constructor(@Inject(AuthService) private readonly authService: AuthService) {}
 
+  @Public()
   @Post('signin')
-  @HttpCode(200)
-  signIn(): string {
+  signIn(@Body() { username, password }: SignInDto): string {
+    if (!this.authService.isAdminUser(username, password)) {
+      throw new NotFoundException('아아디나 비밀번호가 잘못되었습니다.');
+    }
     return this.authService.getJwtToken();
   }
 }
