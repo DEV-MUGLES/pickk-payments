@@ -5,11 +5,13 @@ import {
   NotFoundException,
   Post,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
 import { AuthService } from './auth.service';
 import { SignInDto } from './dtos/jwt.dto';
 import { Public } from './is-public.decorator';
 
+@ApiTags('auth')
 @Controller('/auth')
 export class AuthController {
   constructor(@Inject(AuthService) private readonly authService: AuthService) {}
