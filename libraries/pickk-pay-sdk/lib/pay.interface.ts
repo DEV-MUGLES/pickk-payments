@@ -268,4 +268,12 @@ export interface IPaymentCancellation {
   type: PaymentCancellationType;
   amount: number;
   reason: string;
+
+  /** 취소요청금액 중 면세금액
+   * @default 0 */
+  taxFree?: number;
+
+  refundVbankCode?: InicisBankCode;
+  refundVbankNum?: string;
+  refundVbankHolder?: string;
 }
