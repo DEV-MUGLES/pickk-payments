@@ -1,8 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as faker from 'faker';
-import { PayMethod, Pg } from '@pickk/pay';
-import { getInicisBankCodeDisplayName } from 'inicis';
+import { PayMethod, Pg, PaymentStatus } from '@pickk/pay';
+import {
+  InicisBankCode,
+  InicisCardCode,
+  getInicisBankCodeDisplayName,
+} from 'inicis';
 
 import {
   getRandomEle,
@@ -12,8 +16,6 @@ import {
 
 import { PaymentsRepository } from '@payments/payments.repository';
 import { Payment } from '@payments/entities/payment.entity';
-import { PaymentStatus } from '@payments/constants/payment.enum';
-import { InicisBankCode, InicisCardCode } from 'inicis';
 
 const PAYMENT_SEED_COUNT = 300;
 faker.setLocale('ko');

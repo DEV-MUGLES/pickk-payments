@@ -1,10 +1,9 @@
 import { Controller, Get, Inject, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { PayMethod, Pg } from '@pickk/pay';
+import { PayMethod, Pg, PaymentStatus } from '@pickk/pay';
 
 import { PageParams } from '@common/dtos/pagination.dto';
 
-import { PaymentStatus } from './constants/payment.enum';
 import { PaymentListResponseDto, PaymentFilter } from './dtos';
 import { PaymentsService } from './payments.service';
 

@@ -1,9 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsDate, IsEnum, IsOptional, IsString } from 'class-validator';
-
-import { PaymentStatus } from '@payments/constants/payment.enum';
-import { IPayment } from '@payments/interfaces/payment.interface';
-import { PayMethod, Pg } from '@pickk/pay';
+import { PayMethod, Pg, PaymentStatus, IPayment } from '@pickk/pay';
 
 export class PaymentFilter implements Partial<IPayment> {
   @ApiProperty({ required: false })

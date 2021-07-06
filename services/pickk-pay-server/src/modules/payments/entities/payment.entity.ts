@@ -5,13 +5,10 @@ import {
   IsPostalCode,
   IsString,
 } from 'class-validator';
-import { PayMethod, Pg } from '@pickk/pay';
+import { PayMethod, Pg, IPayment, PaymentStatus } from '@pickk/pay';
 import { InicisBankCode, InicisCardCode } from 'inicis';
 
 import { BaseIdEntity } from '@common/entities/base-id.entity';
-
-import { PaymentStatus } from '@payments/constants/payment.enum';
-import { IPayment } from '@payments/interfaces/payment.interface';
 
 @Entity('payment')
 @Index('id_merchant-uid', ['merchantUid'])
