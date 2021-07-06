@@ -5,5 +5,5 @@
     "sourceType": "module",
     "createDefaultProgram": true
   },
-  "ignorePatterns": "*.js"
+  "ignorePatterns": ["*.js", "./dist"]
 }
