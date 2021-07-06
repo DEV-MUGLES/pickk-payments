@@ -1,7 +1,19 @@
-import { Controller, Get, Inject, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
-import { PaymentListResponseDto, PaymentFilter } from './dtos';
+import {
+  PaymentListResponseDto,
+  PaymentFilter,
+  CancelPaymentDto,
+} from './dtos';
 import { PaymentsService } from './payments.service';
 
 @ApiTags('payments')
@@ -20,5 +32,17 @@ export class PaymentsController {
       'cancellations',
     ]);
     return PaymentListResponseDto.of(payments);
+  }
+
+  @ApiOperation({ description: '지정한 결제건을 취소합니다.' })
+  @Post('/:merchantUid/cancel')
+  async cancel(
+    @Param('merchantUid') merchantUid: string,
+    @Body() cancelPaymentDto: CancelPaymentDto,
+  ) {
+    const payment = await this.paymentsService.findOne({ merchantUid }, [
+      'cancellations',
+    ]);
+    await this.paymentsService.cancel(payment, cancelPaymentDto);
   }
 }

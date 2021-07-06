@@ -14,11 +14,25 @@ import { InicisBankCode, InicisCardCode } from 'inicis';
 
 import { BaseIdEntity } from '@common/entities/base-id.entity';
 import { PaymentCancellation } from './payment-cancellation.entity';
+import { CancelPaymentDto } from '@payments/dtos';
 
 @Entity('payment')
 @Index('id_merchant-uid', ['merchantUid'])
 @Index('id_pg-tid', ['pgTid'])
 export class Payment extends BaseIdEntity implements IPayment {
+  public get remainAmount(): number {
+    return (
+      this.amount -
+      (this.cancellations ?? []).reduce((acc, { amount }) => acc + amount, 0)
+    );
+  }
+
+  public cancel(dto: CancelPaymentDto): PaymentCancellation {
+    CancelPaymentDto.validate(dto, this);
+
+    return new PaymentCancellation();
+  }
+
   constructor(attributes?: Partial<Payment>) {
     super(attributes);
     if (!attributes) {
@@ -46,13 +60,6 @@ export class Payment extends BaseIdEntity implements IPayment {
     this.failedAt = attributes.failedAt;
     this.paidAt = attributes.paidAt;
     this.cancelledAt = attributes.cancelledAt;
-  }
-
-  get remainAmount(): number {
-    return (
-      this.amount -
-      (this.cancellations ?? []).reduce((acc, { amount }) => acc + amount, 0)
-    );
   }
 
   @Column()

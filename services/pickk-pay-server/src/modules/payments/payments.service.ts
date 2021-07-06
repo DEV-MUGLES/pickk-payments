@@ -7,6 +7,7 @@ import { parseFilter } from '@common/helpers/filter.helpers';
 import { PaymentFilter } from './dtos/payment.filter';
 import { Payment } from './entities/payment.entity';
 import { PaymentsRepository } from './payments.repository';
+import { CancelPaymentDto } from './dtos';
 
 @Injectable()
 export class PaymentsService {
@@ -14,6 +15,13 @@ export class PaymentsService {
     @InjectRepository(PaymentsRepository)
     private readonly paymentsRepository: PaymentsRepository,
   ) {}
+
+  async findOne(
+    param: Partial<Payment>,
+    relations: string[] = [],
+  ): Promise<Payment | null> {
+    return await this.paymentsRepository.findOneEntity(param, relations);
+  }
 
   async list(
     paymentFilter?: PaymentFilter,
@@ -28,5 +36,9 @@ export class PaymentsService {
         id: 'DESC',
       },
     });
+  }
+
+  async cancel(payment: Payment, cancelPaymentDto: CancelPaymentDto) {
+    payment.cancel(cancelPaymentDto);
   }
 }
