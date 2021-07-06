@@ -1,6 +1,10 @@
 import { Column, Entity, Index, JoinColumn, OneToMany } from 'typeorm';
 import {
+  IsDate,
+  IsEmail,
+  IsEnum,
   IsNumberString,
+  IsOptional,
   IsPhoneNumber,
   IsPostalCode,
   IsString,
@@ -37,12 +41,18 @@ export class Payment extends BaseIdEntity implements IPayment {
     this.cardCode = attributes.cardCode;
     this.cardNum = attributes.cardNum;
     this.vbankCode = attributes.vbankCode;
-    this.vbankName = attributes.vbankName;
     this.vbankNum = attributes.vbankNum;
     this.vbankHolder = attributes.vbankHolder;
     this.failedAt = attributes.failedAt;
     this.paidAt = attributes.paidAt;
     this.cancelledAt = attributes.cancelledAt;
+  }
+
+  get remainAmount(): number {
+    return (
+      this.amount -
+      (this.cancellations ?? []).reduce((acc, { amount }) => acc + amount, 0)
+    );
   }
 
   @Column()
@@ -53,12 +63,14 @@ export class Payment extends BaseIdEntity implements IPayment {
     type: 'enum',
     enum: PaymentStatus,
   })
+  @IsEnum(PaymentStatus)
   status: PaymentStatus;
 
   @Column({
     type: 'enum',
     enum: Pg,
   })
+  @IsEnum(Pg)
   pg: Pg;
 
   @Column()
@@ -86,6 +98,7 @@ export class Payment extends BaseIdEntity implements IPayment {
     type: 'varchar',
     length: 20,
   })
+  @IsString()
   buyerName: string;
 
   @Column({ type: 'char', length: 11 })
@@ -94,6 +107,7 @@ export class Payment extends BaseIdEntity implements IPayment {
   buyerTel: string;
 
   @Column()
+  @IsEmail()
   buyerEmail: string;
 
   @Column({ type: 'char', length: 6 })
@@ -102,11 +116,14 @@ export class Payment extends BaseIdEntity implements IPayment {
   buyerPostalcode: string;
 
   @Column()
+  @IsString()
   buyerAddr: string;
 
   // 신용 카드 관련 정보
 
   @Column({ nullable: true })
+  @IsString()
+  @IsOptional()
   applyNum?: string;
 
   @Column({
@@ -114,9 +131,13 @@ export class Payment extends BaseIdEntity implements IPayment {
     enum: InicisCardCode,
     nullable: true,
   })
+  @IsEnum(InicisCardCode)
+  @IsOptional()
   cardCode?: InicisCardCode;
 
   @Column({ nullable: true })
+  @IsString()
+  @IsOptional()
   cardNum?: string;
 
   // 가상계좌 관련 정보
@@ -126,33 +147,40 @@ export class Payment extends BaseIdEntity implements IPayment {
     enum: InicisBankCode,
     nullable: true,
   })
+  @IsEnum(InicisBankCode)
+  @IsOptional()
   vbankCode?: InicisBankCode;
 
-  @Column({
-    type: 'varchar',
-    length: 15,
-    nullable: true,
-  })
-  vbankName?: string;
-
   @Column({ nullable: true })
+  @IsString()
+  @IsOptional()
   vbankNum?: string;
 
   @Column({ length: 15, nullable: true })
+  @IsString()
+  @IsOptional()
   vbankHolder?: string;
 
   @Column({ type: 'timestamp', nullable: true })
+  @IsDate()
+  @IsOptional()
   vbankDate?: string;
 
   // timestamps
 
   @Column({ type: 'timestamp', nullable: true })
+  @IsDate()
+  @IsOptional()
   failedAt?: Date;
 
   @Column({ type: 'timestamp', nullable: true })
+  @IsDate()
+  @IsOptional()
   paidAt?: Date;
 
   @Column({ type: 'timestamp', nullable: true })
+  @IsDate()
+  @IsOptional()
   cancelledAt?: Date;
 
   @OneToMany('PaymentCancellation', 'payment', {

@@ -2,11 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as faker from 'faker';
 import { PayMethod, Pg, PaymentStatus } from '@pickk/pay';
-import {
-  InicisBankCode,
-  InicisCardCode,
-  getInicisBankCodeDisplayName,
-} from 'inicis';
+import { InicisBankCode, InicisCardCode } from 'inicis';
 
 import {
   getRandomEle,
@@ -86,7 +82,6 @@ export class PaymentSeeder {
       const vbankCode = getRandomEnumValue(InicisBankCode) as InicisBankCode;
       return {
         vbankCode,
-        vbankName: getInicisBankCodeDisplayName(vbankCode).slice(0, 15),
         vbankNum: faker.phone.phoneNumber('######-##-######'),
         vbankHolder: faker.name.findName(),
         vbankDate: faker.date.past().toString(),
