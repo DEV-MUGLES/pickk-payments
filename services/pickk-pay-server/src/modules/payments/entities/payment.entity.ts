@@ -17,6 +17,36 @@ import { IPayment } from '@payments/interfaces/payment.interface';
 @Index('id_merchant-uid', ['merchantUid'])
 @Index('id_pg-tid', ['pgTid'])
 export class Payment extends BaseIdEntity implements IPayment {
+  constructor(attributes?: Partial<Payment>) {
+    super(attributes);
+    if (!attributes) {
+      return;
+    }
+
+    this.merchantUid = attributes.merchantUid;
+    this.status = attributes.status;
+    this.pg = attributes.pg;
+    this.pgTid = attributes.pgTid;
+    this.payMethod = attributes.payMethod;
+    this.name = attributes.name;
+    this.amount = attributes.amount;
+    this.buyerName = attributes.buyerName;
+    this.buyerTel = attributes.buyerTel;
+    this.buyerEmail = attributes.buyerEmail;
+    this.buyerAddr = attributes.buyerAddr;
+    this.buyerPostalcode = attributes.buyerPostalcode;
+    this.applyNum = attributes.applyNum;
+    this.cardCode = attributes.cardCode;
+    this.cardNum = attributes.cardNum;
+    this.vbankCode = attributes.vbankCode;
+    this.vbankName = attributes.vbankName;
+    this.vbankNum = attributes.vbankNum;
+    this.vbankHolder = attributes.vbankHolder;
+    this.failedAt = attributes.failedAt;
+    this.paidAt = attributes.paidAt;
+    this.cancelledAt = attributes.cancelledAt;
+  }
+
   @Column()
   @IsString()
   merchantUid: string;

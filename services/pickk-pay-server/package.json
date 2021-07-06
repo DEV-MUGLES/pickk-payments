@@ -32,7 +32,8 @@
     "migrate": "npm run typeorm migration:run",
     "migrate:revert": "npm run typeorm migration:revert",
     "migrations": "npm run typeorm migration:show",
-    "eb:prod": "npm install && npm run start:prod"
+    "eb:prod": "npm install && npm run start:prod",
+    "seed": "ts-node -r tsconfig-paths/register src/seed.ts"
   },
   "dependencies": {
     "@babel/runtime": "^7.14.6",
@@ -47,7 +48,7 @@
     "@pickk/pay": "^1.0.11",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
-    "inicis": "^1.2.5",
+    "inicis": "^1.2.6",
     "joi": "^17.4.0",
     "mysql": "^2.18.1",
     "passport": "^0.4.1",
