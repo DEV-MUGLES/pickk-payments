@@ -27,6 +27,9 @@ export class PaymentsService {
     return await this.paymentsRepository.find({
       relations,
       where: parseFilter(_paymentFilter, _pageParams?.idFilter),
+      order: {
+        id: 'DESC',
+      },
       ...(_pageParams?.pageFilter ?? {}),
     });
   }
