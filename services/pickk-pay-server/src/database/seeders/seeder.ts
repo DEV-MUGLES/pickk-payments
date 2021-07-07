@@ -10,7 +10,8 @@ export class Seeder {
   ) {}
 
   async seed() {
-    await this.paymentSeeder.create();
-    this.logger.debug('Successfuly completed seeding payments...');
+    this.logger.debug('[Payments] Start Seeding ...');
+    await this.paymentSeeder.seed();
+    this.logger.debug('[Payments] Seeding Complete!');
   }
 }

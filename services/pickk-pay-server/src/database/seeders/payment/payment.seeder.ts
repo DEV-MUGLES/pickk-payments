@@ -23,7 +23,7 @@ export class PaymentSeeder {
     private readonly paymentsRepository: PaymentsRepository,
   ) {}
 
-  async create(): Promise<void> {
+  async seed(): Promise<void> {
     const payments = this.createPaymentInputs().map(
       (input) => new Payment(input),
     );
