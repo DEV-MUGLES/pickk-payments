@@ -1,10 +1,11 @@
-import { Module, HttpModule } from '@nestjs/common';
+import { Module, HttpModule, forwardRef } from '@nestjs/common';
+import { PaymentsModule } from '@payments/payments.module';
 
 import { InicisController } from './inicis.controller';
 import { InicisService } from './inicis.service';
 
 @Module({
-  imports: [HttpModule],
+  imports: [forwardRef(() => PaymentsModule), HttpModule],
   controllers: [InicisController],
   providers: [InicisService],
   exports: [InicisService],
