@@ -1,8 +1,16 @@
-import { ApiProperty, PickType } from '@nestjs/swagger';
-import { IsNumber, IsOptional } from 'class-validator';
-import { PaymentStatus, PayMethod } from '@pickk/pay';
+import { ApiProperty } from '@nestjs/swagger';
+import {
+  IsEnum,
+  IsNumber,
+  IsOptional,
+  IsString,
+  MaxLength,
+  Min,
+} from 'class-validator';
+import { IPaymentCancellation, PaymentStatus, PayMethod } from '@pickk/pay';
+import { InicisBankCode } from 'inicis';
 
-import { PaymentCancellation, Payment } from '../entities';
+import { Payment } from '../entities';
 import {
   InconsistentChecksumException,
   InvalidPaymentStatusException,
@@ -11,14 +19,38 @@ import {
   VbankRefundInfoRequiredException,
 } from '../exceptions';
 
-export class CancelPaymentDto extends PickType(PaymentCancellation, [
-  'amount',
-  'reason',
-  'taxFree',
-  'refundVbankCode',
-  'refundVbankHolder',
-  'refundVbankNum',
-]) {
+export class CancelPaymentDto
+  implements
+    Omit<IPaymentCancellation, 'id' | 'createdAt' | 'updatedAt' | 'type'>
+{
+  @IsNumber()
+  @Min(1)
+  amount: number;
+
+  @IsString()
+  @MaxLength(30)
+  reason: string;
+
+  @IsNumber()
+  @Min(0)
+  @IsOptional()
+  taxFree?: number;
+
+  // 가상계좌 관련 정보
+
+  @IsEnum(InicisBankCode)
+  @IsOptional()
+  refundVbankCode?: InicisBankCode;
+
+  @IsString()
+  @IsOptional()
+  refundVbankNum?: string;
+
+  @IsString()
+  @MaxLength(15)
+  @IsOptional()
+  refundVbankHolder?: string;
+
   @ApiProperty({
     description:
       '취소 트랜잭션 수행 전, 현재시점의 취소 가능한 잔액.\n\nAPI요청자가 기록하고 있는 취소가능 잔액과 데이터베이스에 기록된 취소가능 잔액이 일치하는지 사전에 검증하고, 검증에 실패하면 트랜잭션을 수행하지 않습니다. 누락되면 검증 프로세스를 생략합니다.',
