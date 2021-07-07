@@ -1,4 +1,4 @@
-import { PaymentStatus } from 'lib/pay.interface';
+import { PaymentStatus } from '../../../pay.interface';
 
 const { Ready, Paid, Cancelled, PartialCancelled, Failed } = PaymentStatus;
 

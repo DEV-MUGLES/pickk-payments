@@ -1,4 +1,4 @@
-import { PayMethod } from 'lib/pay.interface';
+import { PayMethod } from '../../../pay.interface';
 
 const {
   Card,

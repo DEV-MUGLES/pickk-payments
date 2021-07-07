@@ -1,4 +1,4 @@
-import { Pg } from 'lib/pay.interface';
+import { Pg } from '../../../pay.interface';
 
 const { Inicis } = Pg;
 
