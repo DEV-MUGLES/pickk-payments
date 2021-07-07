@@ -41,6 +41,7 @@ export class PaymentsService {
     });
   }
 
+  // @TODO: 지정된 url로 webhook 발송하기
   async cancel(payment: Payment, cancelPaymentDto: CancelPaymentDto) {
     const cancellation = payment.cancel(cancelPaymentDto);
 

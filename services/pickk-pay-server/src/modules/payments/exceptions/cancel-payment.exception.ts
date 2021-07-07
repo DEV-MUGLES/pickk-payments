@@ -2,6 +2,13 @@ import {
   BadRequestException,
   InternalServerErrorException,
 } from '@nestjs/common';
+import { PaymentStatus } from '@pickk/pay';
+
+export class InvalidPaymentStatusException extends BadRequestException {
+  constructor(status: PaymentStatus) {
+    super(`[${status}] 상태인 결제건은 취소할 수 없습니다.`);
+  }
+}
 
 export class NotEnoughRemainAmountException extends BadRequestException {
   constructor() {
