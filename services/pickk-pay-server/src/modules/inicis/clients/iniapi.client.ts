@@ -38,7 +38,8 @@ export class IniapiClient {
       clientIp: '127.0.0.1',
     };
 
-    if (amount !== 0) {
+    // 전액 취소인 경우
+    if (amount !== payment.amount) {
       return {
         ...params,
         type: 'Refund',
