@@ -47,12 +47,21 @@ export class Payment extends BaseIdEntity implements IPayment {
     return new PaymentCancellation({ ...dto, type });
   }
 
+  public confirmVbankPaid() {
+    this.markPaid();
+  }
+
   private markCancelled(type: PaymentCancellationType) {
     this.cancelledAt = new Date();
     this.status =
       type === PaymentCancellationType.Cancel
         ? PaymentStatus.Cancelled
         : PaymentStatus.PartialCancelled;
+  }
+
+  private markPaid() {
+    this.paidAt = new Date();
+    this.status = PaymentStatus.Paid;
   }
 
   constructor(attributes?: Partial<Payment>) {

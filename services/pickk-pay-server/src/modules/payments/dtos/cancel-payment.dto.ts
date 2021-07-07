@@ -13,7 +13,7 @@ import { InicisBankCode } from 'inicis';
 import { Payment } from '../entities';
 import {
   InconsistentChecksumException,
-  InvalidPaymentStatusException,
+  StatusInvalidToCancelException,
   NotEnoughRemainAmountException,
   NotJoinedCancelException,
   VbankRefundInfoRequiredException,
@@ -66,7 +66,7 @@ export class CancelPaymentDto
     }
 
     if (payment.status !== PaymentStatus.Paid) {
-      throw new InvalidPaymentStatusException(payment.status);
+      throw new StatusInvalidToCancelException(payment.status);
     }
 
     const {

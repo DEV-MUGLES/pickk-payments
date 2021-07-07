@@ -54,4 +54,9 @@ export class PaymentsService {
       });
     });
   }
+
+  async confirmVbankPaid(payment: Payment): Promise<Payment> {
+    payment.confirmVbankPaid();
+    return await this.paymentsRepository.save(payment);
+  }
 }
