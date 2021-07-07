@@ -1,6 +1,5 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity, ManyToOne } from 'typeorm';
-import { IPaymentCancellation, PaymentCancellationType } from '@pickk/pay';
-import { InicisBankCode } from 'inicis';
 import {
   IsEnum,
   IsNumber,
@@ -9,10 +8,12 @@ import {
   MaxLength,
   Min,
 } from 'class-validator';
+import { IPaymentCancellation, PaymentCancellationType } from '@pickk/pay';
+import { InicisBankCode } from 'inicis';
 
 import { BaseIdEntity } from '@common/entities/base-id.entity';
+
 import { Payment } from './payment.entity';
-import { ApiProperty } from '@nestjs/swagger';
 
 @Entity('cancellation')
 export class PaymentCancellation

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Pg, PaymentStatus, PayMethod } from '@pickk/pay';
 
-import { Payment } from '@payments/entities/payment.entity';
+import { Payment } from '../entities';
 
 export class PaymentListResponseDto {
   @ApiProperty({

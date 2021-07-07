@@ -14,8 +14,9 @@ import { PayMethod, Pg, IPayment, PaymentStatus } from '@pickk/pay';
 import { InicisBankCode, InicisCardCode } from 'inicis';
 
 import { BaseIdEntity } from '@common/entities/base-id.entity';
+
+import { CancelPaymentDto } from '../dtos';
 import { PaymentCancellation } from './payment-cancellation.entity';
-import { CancelPaymentDto } from '@payments/dtos';
 
 @Entity('payment')
 @Index('id_merchant-uid', ['merchantUid'])

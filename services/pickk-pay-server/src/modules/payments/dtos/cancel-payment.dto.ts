@@ -2,14 +2,14 @@ import { ApiProperty, PickType } from '@nestjs/swagger';
 import { IsNumber, IsOptional } from 'class-validator';
 import { PaymentStatus, PayMethod } from '@pickk/pay';
 
-import { PaymentCancellation, Payment } from '@payments/entities';
+import { PaymentCancellation, Payment } from '../entities';
 import {
   InconsistentChecksumException,
   InvalidPaymentStatusException,
   NotEnoughRemainAmountException,
   NotJoinedCancelException,
   VbankRefundInfoRequiredException,
-} from '@payments/exceptions';
+} from '../exceptions';
 
 export class CancelPaymentDto extends PickType(PaymentCancellation, [
   'amount',
