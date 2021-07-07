@@ -10,7 +10,11 @@ import * as qs from 'querystring';
 import { Payment } from '@payments/entities';
 
 import { IniapiClient } from './clients';
-import { InicisCancelDto, InicisStdVbankNotiDto } from './dtos';
+import {
+  InicisCancelDto,
+  InicisMobVbankNotiDto,
+  InicisStdVbankNotiDto,
+} from './dtos';
 import {
   InicisCancelFailedException,
   InicisGetTransactionFailedException,
@@ -81,7 +85,7 @@ export class InicisService {
   ): Promise<boolean> {
     if (!payment) {
       throw new NotFoundException(
-        '해당 입금건에 대한 결제정보가 존재하지 않습니다.',
+        '[KG이니시스 가상계좌 입금통보] 해당 입금건에 대한 결제정보가 존재하지 않습니다.',
       );
     }
 
@@ -90,5 +94,22 @@ export class InicisService {
       payment.merchantUid,
     );
     return InicisStdVbankNotiDto.validate(dto, payment, transaction);
+  }
+
+  async validateMobVbankNoti(
+    dto: InicisMobVbankNotiDto,
+    payment: Payment,
+  ): Promise<boolean> {
+    if (!payment) {
+      throw new NotFoundException(
+        '[KG이니시스 가상계좌 입금통보] 해당 입금건에 대한 결제정보가 존재하지 않습니다.',
+      );
+    }
+
+    const transaction = await this.getTransaction(
+      payment.pgTid,
+      payment.merchantUid,
+    );
+    return InicisMobVbankNotiDto.validate(dto, payment, transaction);
   }
 }

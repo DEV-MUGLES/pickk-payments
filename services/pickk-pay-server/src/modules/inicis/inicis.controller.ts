@@ -3,7 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 
 import { PaymentsService } from '@payments/payments.service';
 
-import { InicisStdVbankNotiDto } from './dtos';
+import { InicisMobVbankNotiDto, InicisStdVbankNotiDto } from './dtos';
 import { AbnormalVbankNotiException } from './exceptions';
 import { StdVbankNotiGuard, MobVbankNotiGuard } from './guards';
 import { InicisService } from './inicis.service';
@@ -32,9 +32,19 @@ export class InicisController {
     return 'OK';
   }
 
+  // @TODO: SQS에 webhook 알림 추가하기
   @UseGuards(MobVbankNotiGuard)
   @Post('/mob/vbank-noti')
-  async mobVbankNoti(): Promise<string> {
-    return 'hi';
+  async acceptMobVbankNoti(@Body() dto: InicisMobVbankNotiDto): Promise<'OK'> {
+    if (dto.P_STATUS !== '02') {
+      throw new AbnormalVbankNotiException();
+    }
+
+    const payment = await this.paymentsService.findOne({
+      merchantUid: dto.P_OID,
+    });
+    await this.inicisService.validateMobVbankNoti(dto, payment);
+    await this.paymentsService.confirmVbankPaid(payment);
+    return 'OK';
   }
 }
