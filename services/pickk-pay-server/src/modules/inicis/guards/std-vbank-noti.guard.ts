@@ -12,7 +12,7 @@ export class StdVbankNotiGuard implements CanActivate {
     const ip = requestIp.getClientIp(request);
 
     if (!WHITE_LIST.includes(ip)) {
-      throw new NotFromInicisException('PC 가상계좌 입금통보');
+      throw new NotFromInicisException('PC이니시스 가상계좌 입금통보');
     }
 
     return true;

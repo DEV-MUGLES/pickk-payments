@@ -12,7 +12,7 @@ export class MobVbankNotiGuard implements CanActivate {
     const ip = requestIp.getClientIp(request);
 
     if (!WHITE_LIST.includes(ip)) {
-      throw new NotFromInicisException('모바일 가상계좌 입금통보');
+      throw new NotFromInicisException('모바일이니시스 가상계좌 입금통보');
     }
 
     return true;

@@ -7,8 +7,10 @@ import {
 import { IniapiGetTransactionResult, IniapiRefundResult } from 'inicis';
 import * as qs from 'querystring';
 
+import { Payment } from '@payments/entities';
+
 import { IniapiClient } from './clients';
-import { InicisCancelDto } from './dtos';
+import { InicisCancelDto, InicisStdVbankNotiDto } from './dtos';
 import {
   InicisCancelFailedException,
   InicisGetTransactionFailedException,
@@ -60,6 +62,9 @@ export class InicisService {
       .toPromise();
 
     const { resultCode, resultMsg, status } = result;
+    if (resultCode === '01') {
+      throw new NotFoundException('KG이니시스: 거래를 찾을 수 없습니다.');
+    }
     if (resultCode !== '00') {
       throw new InicisGetTransactionFailedException(resultMsg);
     }
@@ -68,5 +73,22 @@ export class InicisService {
     }
 
     return result;
+  }
+
+  async validateStdVbankNoti(
+    dto: InicisStdVbankNotiDto,
+    payment: Payment,
+  ): Promise<boolean> {
+    if (!payment) {
+      throw new NotFoundException(
+        '해당 입금건에 대한 결제정보가 존재하지 않습니다.',
+      );
+    }
+
+    const transaction = await this.getTransaction(
+      payment.pgTid,
+      payment.merchantUid,
+    );
+    return InicisStdVbankNotiDto.validate(dto, payment, transaction);
   }
 }
