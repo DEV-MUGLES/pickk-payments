@@ -10,7 +10,13 @@ import {
   IsString,
   MaxLength,
 } from 'class-validator';
-import { PayMethod, Pg, IPayment, PaymentStatus } from '@pickk/pay';
+import {
+  PayMethod,
+  Pg,
+  IPayment,
+  PaymentStatus,
+  PaymentCancellationType,
+} from '@pickk/pay';
 import { InicisBankCode, InicisCardCode } from 'inicis';
 
 import { BaseIdEntity } from '@common/entities/base-id.entity';
@@ -32,7 +38,21 @@ export class Payment extends BaseIdEntity implements IPayment {
   public cancel(dto: CancelPaymentDto): PaymentCancellation {
     CancelPaymentDto.validate(dto, this);
 
-    return new PaymentCancellation(dto);
+    const type =
+      dto.amount === this.amount
+        ? PaymentCancellationType.Cancel
+        : PaymentCancellationType.PatialCancel;
+
+    this.markCancelled(type);
+    return new PaymentCancellation({ ...dto, type });
+  }
+
+  private markCancelled(type: PaymentCancellationType) {
+    this.cancelledAt = new Date();
+    this.status =
+      type === PaymentCancellationType.Cancel
+        ? PaymentStatus.Cancelled
+        : PaymentStatus.PartialCancelled;
   }
 
   constructor(attributes?: Partial<Payment>) {
