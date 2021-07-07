@@ -57,7 +57,7 @@ export class IniapiClient {
         getHashDataString('Refund') +
           price.toString() +
           confirmPrice.toString(),
-        'sha-512',
+        'RSA-SHA512',
       ),
       price,
       confirmPrice,
