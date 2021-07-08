@@ -9,10 +9,12 @@ export enum PaymentStatus {
   Ready = 'ready',
   /** 결제완료 */
   Paid = 'paid',
-  /** 전액취소 */
+  /** 취소됨 */
   Cancelled = 'cancelled',
-  /** 부분취소 */
-  PartialCancelled = 'partial_cancelled',
+  /** 전액환불 */
+  Refunded = 'refunded',
+  /** 부분환불 */
+  PartialRefunded = 'partial_refunded',
   /** 결제실패 */
   Failed = 'failed',
 }

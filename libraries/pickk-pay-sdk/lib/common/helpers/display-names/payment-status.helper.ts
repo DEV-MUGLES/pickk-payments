@@ -1,12 +1,14 @@
 import { PaymentStatus } from '../../../pay.interface';
 
-const { Ready, Paid, Cancelled, PartialCancelled, Failed } = PaymentStatus;
+const { Ready, Paid, Cancelled, Refunded, PartialRefunded, Failed } =
+  PaymentStatus;
 
 const PAYMENT_STATUS_DISPLAY_NAME_MAPPER = {
-  [Ready]: '미결제',
+  [Ready]: '미결제(입금대기 포함)',
   [Paid]: '결제완료',
-  [Cancelled]: '전액취소',
-  [PartialCancelled]: '부분취소',
+  [Cancelled]: '취소됨',
+  [Refunded]: '전액환불',
+  [PartialRefunded]: '부분환불',
   [Failed]: '결제실패',
 };
 
