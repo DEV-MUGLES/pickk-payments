@@ -6,15 +6,15 @@ export enum Pg {
 
 export enum PaymentStatus {
   /** 미결제 */
-  Ready = 'ready',
+  Pending = 'pending',
+  /** 가상계좌 입금대기 */
+  VbankReady = 'vbank_ready',
   /** 결제완료 */
   Paid = 'paid',
-  /** 취소됨 */
+  /** 전액취소 */
   Cancelled = 'cancelled',
-  /** 전액환불 */
-  Refunded = 'refunded',
-  /** 부분환불 */
-  PartialRefunded = 'partial_refunded',
+  /** 부분취소 */
+  PartialCancelled = 'partial_cancelled',
   /** 결제실패 */
   Failed = 'failed',
 }
