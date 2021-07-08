@@ -50,7 +50,8 @@ export class PaymentListResponseDto {
         [Pg.Inicis]: 0,
       },
       statusCount = {
-        [PaymentStatus.Ready]: 0,
+        [PaymentStatus.Pending]: 0,
+        [PaymentStatus.VbankReady]: 0,
         [PaymentStatus.Paid]: 0,
         [PaymentStatus.Failed]: 0,
         [PaymentStatus.Cancelled]: 0,
@@ -78,13 +79,13 @@ export class PaymentListResponseDto {
         ? (payMethodCount[payMethod] += 1)
         : (payMethodCount[payMethod] = 1);
 
-      const { Ready, Failed, Cancelled, PartialCancelled } = PaymentStatus;
+      const { Paid, Cancelled, PartialCancelled } = PaymentStatus;
 
-      if (status !== Ready && status !== Failed) {
+      if ([Paid, Cancelled, PartialCancelled].includes(status)) {
         amounts.totalPaidAmount += amount;
       }
 
-      if (status === Cancelled || status === PartialCancelled) {
+      if ([Cancelled, PartialCancelled].includes(status)) {
         amounts.totalCancelledAmount += amount;
       }
     });

@@ -65,7 +65,11 @@ export class CancelPaymentDto
       throw new NotJoinedCancelException();
     }
 
-    if (payment.status !== PaymentStatus.Paid) {
+    if (
+      ![PaymentStatus.Paid, PaymentStatus.PartialCancelled].includes(
+        payment.status,
+      )
+    ) {
       throw new StatusInvalidToCancelException(payment.status);
     }
 
