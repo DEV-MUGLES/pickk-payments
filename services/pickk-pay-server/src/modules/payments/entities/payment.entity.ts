@@ -91,6 +91,8 @@ export class Payment extends BaseIdEntity implements IPayment {
     this.failedAt = attributes.failedAt;
     this.paidAt = attributes.paidAt;
     this.cancelledAt = attributes.cancelledAt;
+
+    this.cancellations = attributes.cancellations;
   }
 
   @Column()
