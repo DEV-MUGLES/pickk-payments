@@ -16,8 +16,10 @@ async function bootstrap() {
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('PICKK Pay API docs')
-    .setDescription('PICKK Payments API description')
-    .setVersion('1.0')
+    .setDescription(
+      'healthcheck, signin을 제외 모든 엔드포인트가 Bearer token 인증을 사용합니다.',
+    )
+    .setVersion('0.0.18')
     .build();
   const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('docs', app, swaggerDocument);
