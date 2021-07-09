@@ -3,12 +3,15 @@ import {
   IsDate,
   IsEmail,
   IsEnum,
+  IsNumber,
   IsNumberString,
   IsOptional,
   IsPhoneNumber,
   IsPostalCode,
   IsString,
+  IsUrl,
   MaxLength,
+  Min,
 } from 'class-validator';
 import {
   PayMethod,
@@ -16,6 +19,7 @@ import {
   IPayment,
   PaymentStatus,
   PaymentCancellationType,
+  PayEnviroment,
 } from '@pickk/pay';
 import { InicisBankCode, InicisCardCode } from 'inicis';
 
@@ -72,6 +76,8 @@ export class Payment extends BaseIdEntity implements IPayment {
 
     this.merchantUid = attributes.merchantUid;
     this.status = attributes.status;
+    this.env = attributes.env;
+    this.origin = attributes.origin;
     this.pg = attributes.pg;
     this.pgTid = attributes.pgTid;
     this.payMethod = attributes.payMethod;
@@ -108,28 +114,44 @@ export class Payment extends BaseIdEntity implements IPayment {
 
   @Column({
     type: 'enum',
+    enum: PayEnviroment,
+  })
+  @IsEnum(PayEnviroment)
+  env: PayEnviroment;
+
+  @Column()
+  @IsUrl()
+  origin: string;
+
+  @Column({
+    type: 'enum',
     enum: Pg,
   })
   @IsEnum(Pg)
   pg: Pg;
 
-  @Column()
+  @Column({ nullable: true })
   @IsString()
+  @IsOptional()
   pgTid: string;
 
   @Column({
     type: 'enum',
     enum: PayMethod,
   })
+  @IsEnum(PayMethod)
   payMethod: PayMethod;
 
   @Column()
+  @IsString()
   name: string;
 
   @Column({
     type: 'int',
     unsigned: true,
   })
+  @IsNumber()
+  @Min(1)
   amount: number;
 
   // 주문자 정보
