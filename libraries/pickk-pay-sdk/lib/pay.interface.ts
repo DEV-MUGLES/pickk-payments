@@ -99,6 +99,11 @@ export type PayRequestParam = {
   appScheme?: string;
 };
 
+export enum PayEnviroment {
+  Pc = 'pc',
+  Mobile = 'mobile',
+}
+
 export type PayResponse = Pick<PayRequestParam, 'pg'> &
   Partial<
     Pick<
@@ -218,6 +223,9 @@ export interface IPayment {
   /** 고유 주문번호 */
   merchantUid: string;
   status: PaymentStatus;
+  env: PayEnviroment;
+  /** 결제 origin (ex: https://pickk.one/orders/sheet) */
+  origin: string;
 
   pg: Pg;
   /** pg사 고유 거래번호 */
