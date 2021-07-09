@@ -1,3 +1,4 @@
+import { SuperSecret } from '@auth/decorators';
 import {
   Body,
   Controller,
@@ -38,13 +39,15 @@ export class PaymentsController {
     return PaymentListResponseDto.of(payments);
   }
 
-  @ApiOperation({ description: '새로운 결제건을 생성합니다.' })
+  @ApiOperation({ description: '[SuperSecret] 새로운 결제건을 생성합니다.' })
+  @SuperSecret()
   @Post()
   async create(@Body() createPaymentDto: CreatePaymentDto): Promise<Payment> {
     return await this.paymentsService.create(createPaymentDto);
   }
 
-  @ApiOperation({ description: '결제건을 수정합니다.' })
+  @ApiOperation({ description: '[SuperSecret] 결제건을 수정합니다.' })
+  @SuperSecret()
   @Patch('/:merchantUid')
   async update(
     @Param('merchantUid') merchantUid: string,

@@ -1,7 +1,7 @@
 import { Body, Controller, Inject, Post, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
-import { Public } from '@auth/is-public.decorator';
+import { Public } from '@auth/decorators';
 import { PaymentsService } from '@payments/payments.service';
 
 import { InicisMobVbankNotiDto, InicisStdVbankNotiDto } from './dtos';
