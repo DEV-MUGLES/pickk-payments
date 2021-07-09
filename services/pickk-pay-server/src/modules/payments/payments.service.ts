@@ -9,6 +9,8 @@ import { InicisService } from '@inicis/inicis.service';
 import { CancelPaymentDto, PaymentFilter } from './dtos';
 import { Payment } from './entities';
 import { PaymentsRepository } from './payments.repository';
+import { CreatePaymentDto } from './dtos/create-payment.dto';
+import { PaymentStatus } from '@pickk/pay';
 
 @Injectable()
 export class PaymentsService {
@@ -18,6 +20,14 @@ export class PaymentsService {
     @Inject(InicisService)
     private readonly inicisService: InicisService,
   ) {}
+
+  async create(createPaymentDto: CreatePaymentDto): Promise<Payment> {
+    const payment = new Payment({
+      ...createPaymentDto,
+      status: PaymentStatus.Pending,
+    });
+    return await this.paymentsRepository.save(payment);
+  }
 
   async findOne(
     param: Partial<Payment>,

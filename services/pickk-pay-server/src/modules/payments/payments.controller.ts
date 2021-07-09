@@ -14,6 +14,8 @@ import {
   PaymentFilter,
   CancelPaymentDto,
 } from './dtos';
+import { CreatePaymentDto } from './dtos/create-payment.dto';
+import { Payment } from './entities';
 import { PaymentsService } from './payments.service';
 
 @ApiTags('payments')
@@ -32,6 +34,12 @@ export class PaymentsController {
       'cancellations',
     ]);
     return PaymentListResponseDto.of(payments);
+  }
+
+  @ApiOperation({ description: '새로운 결제건을 생성합니다.' })
+  @Post()
+  async create(@Body() createPaymentDto: CreatePaymentDto): Promise<Payment> {
+    return await this.paymentsService.create(createPaymentDto);
   }
 
   @ApiOperation({ description: '지정한 결제건을 취소합니다.' })
