@@ -12,6 +12,7 @@
     "baseUrl": "./",
     "incremental": true,
     "paths": {
+      "@auth/*": ["src/auth/*"],
       "@common/*": ["src/common/*"],
       "@config/*": ["src/config/*"],
       "@providers/*": ["src/providers/*"],

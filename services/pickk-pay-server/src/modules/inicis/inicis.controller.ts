@@ -1,6 +1,7 @@
 import { Body, Controller, Inject, Post, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
+import { Public } from '@auth/is-public.decorator';
 import { PaymentsService } from '@payments/payments.service';
 
 import { InicisMobVbankNotiDto, InicisStdVbankNotiDto } from './dtos';
@@ -18,6 +19,7 @@ export class InicisController {
 
   // @TODO: SQS에 webhook 알림 추가하기
   @UseGuards(StdVbankNotiGuard)
+  @Public()
   @Post('/std/vbank-noti')
   async acceptStdVbankNoti(@Body() dto: InicisStdVbankNotiDto): Promise<'OK'> {
     if (dto.type_msg !== '0200') {
@@ -34,6 +36,7 @@ export class InicisController {
 
   // @TODO: SQS에 webhook 알림 추가하기
   @UseGuards(MobVbankNotiGuard)
+  @Public()
   @Post('/mob/vbank-noti')
   async acceptMobVbankNoti(@Body() dto: InicisMobVbankNotiDto): Promise<'OK'> {
     if (dto.P_STATUS !== '02') {
