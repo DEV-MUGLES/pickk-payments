@@ -11,6 +11,7 @@ import { Payment } from './entities';
 import { PaymentsRepository } from './payments.repository';
 import { CreatePaymentDto } from './dtos/create-payment.dto';
 import { PaymentStatus } from '@pickk/pay';
+import { UpdatePaymentDto } from './dtos/update-payment.dto';
 
 @Injectable()
 export class PaymentsService {
@@ -27,6 +28,18 @@ export class PaymentsService {
       status: PaymentStatus.Pending,
     });
     return await this.paymentsRepository.save(payment);
+  }
+
+  async update(
+    payment: Payment,
+    updatePaymentDto: UpdatePaymentDto,
+  ): Promise<Payment> {
+    return await this.paymentsRepository.save(
+      new Payment({
+        ...payment,
+        ...updatePaymentDto,
+      }),
+    );
   }
 
   async findOne(

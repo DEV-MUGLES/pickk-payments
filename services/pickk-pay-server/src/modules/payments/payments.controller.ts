@@ -4,6 +4,7 @@ import {
   Get,
   Inject,
   Param,
+  Patch,
   Post,
   Query,
 } from '@nestjs/common';
@@ -15,6 +16,7 @@ import {
   CancelPaymentDto,
 } from './dtos';
 import { CreatePaymentDto } from './dtos/create-payment.dto';
+import { UpdatePaymentDto } from './dtos/update-payment.dto';
 import { Payment } from './entities';
 import { PaymentsService } from './payments.service';
 
@@ -40,6 +42,18 @@ export class PaymentsController {
   @Post()
   async create(@Body() createPaymentDto: CreatePaymentDto): Promise<Payment> {
     return await this.paymentsService.create(createPaymentDto);
+  }
+
+  @ApiOperation({ description: '결제건을 수정합니다.' })
+  @Patch('/:merchantUid')
+  async update(
+    @Param('merchantUid') merchantUid: string,
+    @Body() updatePaymentDto: UpdatePaymentDto,
+  ): Promise<Payment> {
+    const payment = await this.paymentsService.findOne({ merchantUid }, [
+      'cancellations',
+    ]);
+    return await this.paymentsService.update(payment, updatePaymentDto);
   }
 
   @ApiOperation({ description: '지정한 결제건을 취소합니다.' })
