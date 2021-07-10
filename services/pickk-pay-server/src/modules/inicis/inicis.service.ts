@@ -1,9 +1,5 @@
-import {
-  HttpService,
-  Inject,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
 import { IniapiGetTransactionResult, IniapiRefundResult } from 'inicis';
 import * as qs from 'querystring';
 

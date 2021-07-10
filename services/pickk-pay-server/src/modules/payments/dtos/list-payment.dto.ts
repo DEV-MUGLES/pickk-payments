@@ -3,6 +3,11 @@ import { Pg, PaymentStatus, PayMethod } from '@pickk/pay';
 
 import { Payment } from '../entities';
 
+export class PaymentsListAmount {
+  totalPaidAmount: number;
+  totalCancelledAmount: number;
+}
+
 export class PaymentListResponseDto {
   @ApiProperty({
     example: { inicis: 3 },
@@ -36,10 +41,14 @@ export class PaymentListResponseDto {
     [statusName: string]: number;
   };
 
-  amounts: {
-    totalPaidAmount: number;
-    totalCancelledAmount: number;
-  };
+  @ApiProperty({
+    type: () => PaymentsListAmount,
+    example: {
+      totalPaidAmount: 50000,
+      totalCancelledAmount: 15000,
+    },
+  })
+  amounts: PaymentsListAmount;
 
   payments: Payment[];
 

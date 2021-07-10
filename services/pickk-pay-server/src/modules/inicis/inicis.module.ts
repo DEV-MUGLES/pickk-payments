@@ -1,4 +1,5 @@
-import { Module, HttpModule, forwardRef } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
+import { HttpModule } from '@nestjs/axios';
 import { PaymentsModule } from '@payments/payments.module';
 
 import { InicisController } from './inicis.controller';
