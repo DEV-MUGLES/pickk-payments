@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsEnum, IsOptional, IsString } from 'class-validator';
+import { IsDateString, IsEnum, IsOptional, IsString } from 'class-validator';
 import { PayMethod, Pg, PaymentStatus, IPayment } from '@pickk/pay';
 
 export class PaymentFilter implements Partial<IPayment> {
@@ -39,12 +39,12 @@ export class PaymentFilter implements Partial<IPayment> {
 
   @ApiProperty({ required: false })
   @IsOptional()
-  @IsDate()
+  @IsDateString()
   createdAtMte?: Date;
 
   @ApiProperty({ required: false })
   @IsOptional()
-  @IsDate()
+  @IsDateString()
   createdAtLte?: Date;
 
   @ApiProperty({ required: false })

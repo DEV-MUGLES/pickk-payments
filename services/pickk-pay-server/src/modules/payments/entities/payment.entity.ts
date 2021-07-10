@@ -1,6 +1,6 @@
 import { Column, Entity, Index, JoinColumn, OneToMany } from 'typeorm';
 import {
-  IsDate,
+  IsDateString,
   IsEmail,
   IsEnum,
   IsNumber,
@@ -228,24 +228,24 @@ export class Payment extends BaseIdEntity implements IPayment {
   vbankHolder?: string;
 
   @Column({ type: 'timestamp', nullable: true })
-  @IsDate()
+  @IsDateString()
   @IsOptional()
   vbankDate?: string;
 
   // timestamps
 
   @Column({ type: 'timestamp', nullable: true })
-  @IsDate()
+  @IsDateString()
   @IsOptional()
   failedAt?: Date;
 
   @Column({ type: 'timestamp', nullable: true })
-  @IsDate()
+  @IsDateString()
   @IsOptional()
   paidAt?: Date;
 
   @Column({ type: 'timestamp', nullable: true })
-  @IsDate()
+  @IsDateString()
   @IsOptional()
   cancelledAt?: Date;
 
