@@ -30,7 +30,8 @@ export class PaymentListResponseDto {
 
   @ApiProperty({
     example: {
-      ready: 9,
+      pending: 9,
+      vbank_ready: 9,
       paid: 6,
       failed: 1,
       cancelled: 2,
