@@ -10,7 +10,7 @@ export const defaultParam: Required<
     | 'buyerName'
     | 'buyerEmail'
     | 'buyerAddr'
-    | 'buyerPostcode'
+    | 'buyerPostalcode'
   >
 > = {
   payMethod: PayMethod.Card,
@@ -19,5 +19,5 @@ export const defaultParam: Required<
   buyerName: 'undefined',
   buyerEmail: 'undefined',
   buyerAddr: 'undefined',
-  buyerPostcode: 'undefined',
+  buyerPostalcode: 'undefined',
 };

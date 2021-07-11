@@ -58,7 +58,18 @@ export enum PayMethod {
   Chaipay = 'chaipay',
 }
 
-export type PayRequestParam = {
+export type PayRequestParam = Pick<
+  IPayment,
+  | 'pg'
+  | 'payMethod'
+  | 'name'
+  | 'amount'
+  | 'buyerName'
+  | 'buyerTel'
+  | 'buyerEmail'
+  | 'buyerAddr'
+  | 'buyerPostalcode'
+> & {
   /** 요청 ID (`req_${timestamp}`) */
   requestId: string;
   /** 모바일 결제 후 이동될 주소. 모바일 결제시에만 사용됨 */
@@ -92,7 +103,7 @@ export type PayRequestParam = {
   buyerAddr?: string;
   /** 주문자 우편번호
    * @default 'undefined' */
-  buyerPostcode?: string;
+  buyerPostalcode?: string;
   /** 가상계좌 입금기한. `YYYYMMDDhhmm` 형식 */
   vbankDue?: string;
   /** WebView 결제시 필수. ISP/앱카드 앱에서 결제정보인증 후 원래 앱으로 복귀할 때 사용됨 */
@@ -117,7 +128,7 @@ export type PayResponse = Pick<PayRequestParam, 'pg'> &
       | 'buyerTel'
       | 'buyerEmail'
       | 'buyerAddr'
-      | 'buyerPostcode'
+      | 'buyerPostalcode'
       | 'mRedirectUrl'
     >
   > & {
