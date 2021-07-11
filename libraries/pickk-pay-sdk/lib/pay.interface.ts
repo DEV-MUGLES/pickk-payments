@@ -246,7 +246,7 @@ export interface IPayment {
   payMethod: PayMethod;
 
   /** 주문명 */
-  name: String;
+  name: string;
   /** 거래 금액 */
   amount: number;
 
