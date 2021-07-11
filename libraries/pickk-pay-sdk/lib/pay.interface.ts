@@ -60,6 +60,8 @@ export enum PayMethod {
 
 export type PayRequestParam = Pick<
   IPayment,
+  | 'env'
+  | 'origin'
   | 'pg'
   | 'payMethod'
   | 'name'
