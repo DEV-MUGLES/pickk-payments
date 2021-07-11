@@ -115,7 +115,7 @@ export class Inicis {
       authToken,
       timestamp,
       signature,
-      format: 'JSON' as 'JSON',
+      format: 'JSON' as const,
     };
   }
 
