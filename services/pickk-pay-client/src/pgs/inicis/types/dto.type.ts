@@ -1,4 +1,8 @@
-import { IPayment } from '@pickk/pay';
+import { IPayment, PayRequestParam } from '@pickk/pay';
+
+export type InicisPrepareParam = PayRequestParam & {
+  requestId: string;
+} & Pick<IPayment, 'env' | 'origin'>;
 
 export type InicisPrepareRequestDto = Pick<
   IPayment,

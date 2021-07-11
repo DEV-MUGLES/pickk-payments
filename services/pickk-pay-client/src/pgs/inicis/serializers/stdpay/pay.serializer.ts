@@ -1,4 +1,4 @@
-import { PayMethod, PayRequestParam } from '@pickk/pay';
+import { PayMethod } from '@pickk/pay';
 import {
   StdPayPayMethod,
   StdPayRequestParams,
@@ -6,6 +6,7 @@ import {
 } from 'inicis';
 
 import { requestInicisPrepare } from '../../helpers';
+import { InicisPrepareParam } from '../../types';
 
 const skinColor = process.env.NEXT_PUBLIC_INICIS_SKIN ?? '#C1272C';
 
@@ -24,7 +25,7 @@ export const getGopaymethod = (payMethod: PayMethod): StdPayPayMethod => {
 };
 
 export const serializeInicisStdpayParams = async (
-  params: PayRequestParam
+  params: InicisPrepareParam
 ): Promise<StdPayRequestParams> => {
   const { payment, ...inicisParams } = await requestInicisPrepare(params);
 

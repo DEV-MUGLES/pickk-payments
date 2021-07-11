@@ -1,6 +1,5 @@
 import {
   isMobile,
-  PayRequestParam,
   PayResponse,
   Pg,
   PayMessage,
@@ -39,6 +38,7 @@ import {
   requestInicisStdNetCancel,
 } from './helpers';
 import * as Iniapi from './helpers/iniapi-request.helper';
+import { InicisPrepareParam } from './types';
 
 const MID = process.env.NEXT_PUBLIC_INICIS_MID;
 const SIGNKEY = process.env.NEXT_PUBLIC_INICIS_SIGNKEY;
@@ -69,7 +69,7 @@ export class Inicis {
     }).stdpay.getParams({ price }, false);
   }
 
-  static async prepare(param: PayRequestParam) {
+  static async prepare(param: InicisPrepareParam) {
     const inicisParam = isMobile()
       ? await serializeInicisMobpayParams(param)
       : await serializeInicisStdpayParams(param);

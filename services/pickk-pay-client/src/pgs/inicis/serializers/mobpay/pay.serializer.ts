@@ -1,5 +1,5 @@
 import { MobpayMethod, MobpayRequestParams } from 'inicis';
-import { PayMethod, PayRequestParam } from '@pickk/pay';
+import { PayMethod } from '@pickk/pay';
 
 import {
   encodeParamsToUrl,
@@ -13,7 +13,7 @@ import {
 } from '@src/common';
 
 import { requestInicisPrepare } from '../../helpers';
-import { MobpayNoti } from '../../types';
+import { InicisPrepareParam, MobpayNoti } from '../../types';
 
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
@@ -57,7 +57,7 @@ const getScheme = (): string => {
 };
 
 export const serializeInicisMobpayParams = async (
-  params: PayRequestParam
+  params: InicisPrepareParam
 ): Promise<MobpayRequestParams> => {
   const { payment, ...inicisParams } = await requestInicisPrepare(params);
 
