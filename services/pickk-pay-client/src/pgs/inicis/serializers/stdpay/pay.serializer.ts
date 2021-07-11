@@ -32,6 +32,7 @@ export const serializeInicisStdpayParams = async (
   const stdpayParams: StdPayRequestParams = {
     ...STDPAY_BASE_PARAMS,
     ...inicisParams,
+    oid: payment.merchantUid,
     gopaymethod: getGopaymethod(payment.payMethod),
     goodname: payment.name,
     price: payment.amount,
