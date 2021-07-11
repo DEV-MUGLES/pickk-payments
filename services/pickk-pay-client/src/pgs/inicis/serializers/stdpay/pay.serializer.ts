@@ -5,7 +5,7 @@ import {
   STDPAY_BASE_PARAMS,
 } from 'inicis';
 
-import { requestInicisInit } from '../../helpers';
+import { requestInicisPrepare } from '../../helpers';
 
 const skinColor = process.env.NEXT_PUBLIC_INICIS_SKIN ?? '#C1272C';
 
@@ -26,20 +26,21 @@ export const getGopaymethod = (payMethod: PayMethod): StdPayPayMethod => {
 export const serializeInicisStdpayParams = async (
   params: PayRequestParam
 ): Promise<StdPayRequestParams> => {
-  const initParams = await requestInicisInit(params.amount);
+  const { payment, ...inicisParams } = await requestInicisPrepare(params);
 
   const stdpayParams: StdPayRequestParams = {
     ...STDPAY_BASE_PARAMS,
-    ...initParams,
-    gopaymethod: getGopaymethod(params.payMethod),
-    goodname: params.name,
-    buyername: params.buyerName,
-    buyertel: params.buyerTel,
-    buyeremail: params.buyerEmail,
+    ...inicisParams,
+    gopaymethod: getGopaymethod(payment.payMethod),
+    goodname: payment.name,
+    price: payment.amount,
+    buyername: payment.buyerName,
+    buyertel: payment.buyerTel,
+    buyeremail: payment.buyerEmail,
     returnUrl: `${location.origin}/inicis/std/return?requestId=${params.requestId}`,
-    closeUrl: `${location.origin}/inicis/close?pg=inicis&amount=${initParams.price}&requestId=${params.requestId}`,
+    closeUrl: `${location.origin}/inicis/close?pg=inicis&amount=${payment.amount}&requestId=${params.requestId}`,
     acceptmethod: `below1000:va_receipt:SKIN(${skinColor}):popreturn:HPP(2)`,
-    merchantData: `${params.requestId},${initParams.price}`,
+    merchantData: `${params.requestId},${payment.amount}`,
     logo_url: 'https://pay.pickk.one/images/logo.png',
   };
 

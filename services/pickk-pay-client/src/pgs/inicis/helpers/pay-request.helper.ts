@@ -1,6 +1,5 @@
 import axios from 'axios';
 import {
-  StdPayRequestParams,
   StdPayAuthInput,
   StdPayAuthResult,
   StdPayNetCancelResult,
@@ -11,19 +10,18 @@ import {
 } from 'inicis';
 
 import { encodeParamsToUrl, getQUeryQuestionMark } from '@src/common';
+import { InicisPrepareRequestDto, InicisPrepareResponseDto } from '../types';
 
-export type InicisInitParam = Pick<
-  StdPayRequestParams,
-  'price' | 'mid' | 'oid' | 'timestamp' | 'mKey' | 'signature'
->;
+const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
-export const requestInicisInit = async (
-  price: number
-): Promise<InicisInitParam> =>
+export const requestInicisPrepare = async (
+  requestDto: InicisPrepareRequestDto
+): Promise<InicisPrepareResponseDto> =>
   (
-    await axios.post<InicisInitParam>(`${location.origin}/api/inicis/init`, {
-      price,
-    })
+    await axios.post<InicisPrepareResponseDto>(
+      `${SERVER_URL}/inicis/prepare`,
+      requestDto
+    )
   ).data;
 
 export type InicisAuthInput = Pick<

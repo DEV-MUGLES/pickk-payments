@@ -12,8 +12,10 @@ import {
   isNaver,
 } from '@src/common';
 
-import { requestInicisInit } from '../../helpers';
+import { requestInicisPrepare } from '../../helpers';
 import { MobpayNoti } from '../../types';
+
+const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
 const getMobpayMethod = (payMethod: PayMethod): MobpayMethod => {
   const { Card, Trans, Vbank, Phone } = PayMethod;
@@ -57,27 +59,27 @@ const getScheme = (): string => {
 export const serializeInicisMobpayParams = async (
   params: PayRequestParam
 ): Promise<MobpayRequestParams> => {
-  const initParams = await requestInicisInit(params.amount);
+  const { payment, ...inicisParams } = await requestInicisPrepare(params);
 
   const mobpayParams: MobpayRequestParams = {
-    P_MID: initParams.mid,
-    P_OID: initParams.oid,
+    P_MID: inicisParams.mid,
+    P_OID: payment.merchantUid,
     P_INI_PAYMENT: getMobpayMethod(params.payMethod),
-    P_AMT: params.amount,
-    P_GOODS: params.name,
-    P_UNAME: params.buyerName,
-    P_MOBILE: params.buyerTel,
-    P_EMAIL: params.buyerEmail,
+    P_AMT: payment.amount,
+    P_GOODS: payment.name,
+    P_UNAME: payment.buyerName,
+    P_MOBILE: payment.buyerTel,
+    P_EMAIL: payment.buyerEmail,
     P_CHARSET: 'utf8',
     P_NEXT_URL: `${location.origin}/inicis/mob/return`,
-    P_NOTI_URL: `${location.origin}/api/inicis/mob/vbank-noti`,
+    P_NOTI_URL: `${SERVER_URL}/inicis/mob/vbank-noti`,
     P_NOTI: encodeParamsToUrl({
       requestId: params.requestId,
-      name: params.name,
-      buyerName: params.buyerName,
-      buyerTel: params.buyerTel,
-      oid: initParams.oid,
       mRedirectUrl: params.mRedirectUrl,
+      name: payment.name,
+      buyerName: payment.buyerName,
+      buyerTel: payment.buyerTel,
+      oid: payment.merchantUid,
     } as MobpayNoti),
   };
 
