@@ -60,8 +60,6 @@ export enum PayMethod {
 
 export type PayRequestParam = Pick<
   IPayment,
-  | 'env'
-  | 'origin'
   | 'pg'
   | 'payMethod'
   | 'name'
@@ -72,8 +70,6 @@ export type PayRequestParam = Pick<
   | 'buyerAddr'
   | 'buyerPostalcode'
 > & {
-  /** 요청 ID (`req_${timestamp}`) */
-  requestId: string;
   /** 모바일 결제 후 이동될 주소. 모바일 결제시에만 사용됨 */
   mRedirectUrl?: string;
 
