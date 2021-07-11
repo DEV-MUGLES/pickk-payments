@@ -23,7 +23,8 @@ import {
 } from '@pickk/pay';
 import { InicisBankCode, InicisCardCode } from 'inicis';
 
-import { BaseIdEntity } from '@common/entities/base-id.entity';
+import { BaseIdEntity } from '@common/entities';
+import { getRandomString } from '@common/helpers';
 
 import { CancelPaymentDto } from '../dtos';
 import { PaymentCancellation } from './payment-cancellation.entity';
@@ -32,6 +33,12 @@ import { PaymentCancellation } from './payment-cancellation.entity';
 @Index('id_merchant-uid', ['merchantUid'])
 @Index('id_pg-tid', ['pgTid'])
 export class Payment extends BaseIdEntity implements IPayment {
+  public static genMerchantUid(
+    timestamp = new Date().getTime().toString(),
+  ): string {
+    return `${timestamp}${getRandomString(4)}`;
+  }
+
   public get remainAmount(): number {
     return (
       this.amount -

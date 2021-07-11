@@ -22,6 +22,15 @@ export class PaymentsService {
     private readonly inicisService: InicisService,
   ) {}
 
+  async genMerchantUid(timestamp: string): Promise<string> {
+    let merchantUid: string;
+    do {
+      merchantUid = Payment.genMerchantUid(timestamp);
+    } while (await this.paymentsRepository.checkExist(merchantUid));
+
+    return merchantUid;
+  }
+
   async create(createPaymentDto: CreatePaymentDto): Promise<Payment> {
     const payment = new Payment({
       ...createPaymentDto,
