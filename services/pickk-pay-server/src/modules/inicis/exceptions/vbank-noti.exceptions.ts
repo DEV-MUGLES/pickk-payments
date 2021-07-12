@@ -1,4 +1,4 @@
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, ConflictException } from '@nestjs/common';
 import { PaymentStatus } from '@pickk/pay';
 
 export class AbnormalVbankNotiException extends BadRequestException {
@@ -17,7 +17,7 @@ export class StatusInvalidToVbankDepositException extends BadRequestException {
   }
 }
 
-export class VbankInvalidPricesException extends BadRequestException {
+export class VbankInvalidPricesException extends ConflictException {
   constructor(
     inputAmount: number,
     paymentAmount: number,

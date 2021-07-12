@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ConflictException,
   InternalServerErrorException,
 } from '@nestjs/common';
 import { PaymentStatus } from '@pickk/pay';
@@ -10,13 +11,13 @@ export class StatusInvalidToCancelException extends BadRequestException {
   }
 }
 
-export class NotEnoughRemainAmountException extends BadRequestException {
+export class NotEnoughRemainAmountException extends ConflictException {
   constructor() {
     super('취소 요청된 금액이 취소가능 잔액보다 많습니다.');
   }
 }
 
-export class InconsistentChecksumException extends BadRequestException {
+export class InconsistentChecksumException extends ConflictException {
   constructor() {
     super('제출된 checksum이 저장되어 있는 취소가능 잔액과 일치하지 않습니다.');
   }
