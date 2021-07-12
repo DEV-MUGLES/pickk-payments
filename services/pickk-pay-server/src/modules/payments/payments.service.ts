@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { getManager } from 'typeorm';
 import { plainToClass } from 'class-transformer';
+import { PaymentStatus } from '@pickk/pay';
 
 import { parseFilter } from '@common/helpers';
 import { InicisService } from '@inicis/inicis.service';
@@ -10,7 +11,6 @@ import { CancelPaymentDto, PaymentFilter } from './dtos';
 import { Payment } from './entities';
 import { PaymentsRepository } from './payments.repository';
 import { CreatePaymentDto } from './dtos/create-payment.dto';
-import { PaymentStatus } from '@pickk/pay';
 import { UpdatePaymentDto } from './dtos/update-payment.dto';
 
 @Injectable()

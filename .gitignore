@@ -15,6 +15,7 @@ out
 # build output
 build
 dist
+*.zip
 
 # misc
 .DS_Store
