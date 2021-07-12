@@ -57,7 +57,7 @@ export const parseFilter = (filter: unknown, idFilter: any = {}) => {
       };
     }
     if (/Between$/.test(key) && isArray(value)) {
-      const [start, end] = value;
+      const [start, end] = value.sort();
       return {
         ...acc,
         [key.replace(/Between$/, '')]: Between(start, end),
