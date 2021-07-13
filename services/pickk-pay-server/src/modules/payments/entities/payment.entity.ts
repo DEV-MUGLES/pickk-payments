@@ -28,6 +28,7 @@ import { getRandomString } from '@common/helpers';
 
 import { CancelPaymentDto } from '../dtos';
 import { PaymentCancellation } from './payment-cancellation.entity';
+import { BadRequestException } from '@nestjs/common';
 
 @Entity('payment')
 @Index('id_merchant-uid', ['merchantUid'])
@@ -63,6 +64,15 @@ export class Payment extends BaseIdEntity implements IPayment {
     this.markPaid();
   }
 
+  public fail(): void {
+    if (this.status !== PaymentStatus.Pending) {
+      throw new BadRequestException(
+        '미결제 상태인 결제건만 실패 처리할 수 있습니다.'
+      );
+    }
+    this.markFailed();
+  }
+
   private markCancelled(type: PaymentCancellationType) {
     this.cancelledAt = new Date();
     this.status =
@@ -74,6 +84,11 @@ export class Payment extends BaseIdEntity implements IPayment {
   private markPaid() {
     this.paidAt = new Date();
     this.status = PaymentStatus.Paid;
+  }
+
+  private markFailed() {
+    this.failedAt = new Date();
+    this.status = PaymentStatus.Failed;
   }
 
   constructor(attributes?: Partial<Payment>) {

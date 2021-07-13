@@ -102,12 +102,17 @@ export class PaymentsService {
       );
     }
     // check if payment is created before one day
-    if (dayjs(payment.createdAt).diff(dayjs(), 'days') > 1) {
+    if (dayjs(payment.createdAt).diff(dayjs(), 'days') < 1) {
       throw new BadRequestException(
-        '1일 이내에 생성된 결제건만 삭제할 수 있습니다.'
+        '1일 이내에 생성된 결제건은 삭제할 수 없습니다.'
       );
     }
 
     await this.paymentsRepository.remove(payment);
+  }
+
+  async fail(payment: Payment): Promise<Payment> {
+    payment.fail();
+    return await this.paymentsRepository.save(payment);
   }
 }

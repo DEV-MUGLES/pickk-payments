@@ -79,4 +79,14 @@ export class PaymentsController {
     const payment = await this.paymentsService.findOne({ merchantUid });
     await this.paymentsService.remove(payment);
   }
+
+  @ApiOperation({
+    description: '[SuperSecret] 지정한 결제건을 실패 처리합니다.',
+  })
+  @SuperSecret()
+  @Post('/:merchantUid/fail')
+  async fail(@Param('merchantUid') merchantUid: string) {
+    const payment = await this.paymentsService.findOne({ merchantUid });
+    await this.paymentsService.fail(payment);
+  }
 }
