@@ -6,6 +6,7 @@ import { Pg } from '@pickk/pay';
 import {
   decodeUrlToParams,
   getParsedBody,
+  markPaymentFailed,
   response,
   ResponseData,
 } from '@src/common';
@@ -50,11 +51,14 @@ const handleFail = async (
   skipNetCancel = false
 ): Promise<ResponseData> => {
   const { resultMsg: errorMsg, merchantData } = result;
-  const { requestId } = decodeUrlToParams<StdpayMerchantData>(merchantData);
+  const { requestId, merchantUid } =
+    decodeUrlToParams<StdpayMerchantData>(merchantData);
 
   if (!skipNetCancel) {
     await Inicis.stdNetCancel(result.netCancelUrl, result.authToken);
   }
+
+  await markPaymentFailed(merchantUid);
 
   return {
     success: false,

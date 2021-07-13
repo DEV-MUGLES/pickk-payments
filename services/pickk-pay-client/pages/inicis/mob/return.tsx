@@ -7,6 +7,7 @@ import {
   decodeUrlToParams,
   encodeParamsToUrl,
   getParsedBody,
+  markPaymentFailed,
   ResponseData,
 } from '@src/common';
 import { Inicis, MobpayNoti } from '@src/pgs/inicis';
@@ -68,6 +69,8 @@ const handleFail = async (
       oid
     );
   }
+
+  await markPaymentFailed(oid);
 
   return {
     success: false,

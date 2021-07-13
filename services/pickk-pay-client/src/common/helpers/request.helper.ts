@@ -13,3 +13,10 @@ export const removePayment = async (merchantUid: string) =>
       headers: SUPER_SECRET_HEADERS,
     })
   ).data;
+
+export const markPaymentFailed = async (merchantUid: string) =>
+  (
+    await axios.post(`${SERVER_URL}/payments/${merchantUid}/fail`, {
+      headers: SUPER_SECRET_HEADERS,
+    })
+  ).data;
