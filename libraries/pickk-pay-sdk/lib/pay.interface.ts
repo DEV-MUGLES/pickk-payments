@@ -106,6 +106,11 @@ export type PayRequestParam = Pick<
   vbankDue?: string;
   /** WebView 결제시 필수. ISP/앱카드 앱에서 결제정보인증 후 원래 앱으로 복귀할 때 사용됨 */
   appScheme?: string;
+
+  /** 결제 요청 user id */
+  userId: number;
+
+  orderSheetUuId: string;
 };
 
 export enum PayEnviroment {
