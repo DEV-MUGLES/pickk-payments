@@ -41,7 +41,7 @@ export const serializeInicisStdpayParams = async (
     buyertel: payment.buyerTel,
     buyeremail: payment.buyerEmail,
     returnUrl: `${location.origin}/inicis/std/return?requestId=${params.requestId}`,
-    closeUrl: `${location.origin}/inicis/close?pg=inicis&amount=${payment.amount}&requestId=${params.requestId}`,
+    closeUrl: `${location.origin}/inicis/close?pg=inicis&amount=${payment.amount}&requestId=${params.requestId}&merchantUid=${payment.merchantUid}`,
     acceptmethod: `below1000:va_receipt:SKIN(${skinColor}):popreturn:HPP(2)`,
     merchantData: encodeParamsToUrl({
       requestId: params.requestId,

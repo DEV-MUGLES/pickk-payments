@@ -1,24 +1,31 @@
 import { useEffect } from 'react';
+import { GetServerSideProps } from 'next';
 
-import { useRouter } from 'next/router';
+import { removePayment } from '@src/common';
 
-export default function InicisClosePage() {
-  const router = useRouter();
+type InicisClosePageProps = {
+  querystring: string;
+};
 
+export default function InicisClosePage({ querystring }: InicisClosePageProps) {
   useEffect(() => {
-    if (!router.query.pg) {
-      return;
-    }
-
-    const { pg, amount, requestId } = router.query;
-
-    window.parent.location.href = `${
-      location.origin
-    }/fail?pg=${pg}&amount=${amount}&requestId=${requestId}&errorMsg=${encodeURIComponent(
-      `사용자가 결제를 취소하셨습니다.`
-    )}`;
+    window.parent.location.href = `${location.origin}/fail${querystring}`;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [!!router.query.pg]);
+  }, []);
 
   return <>처리중입니다...</>;
 }
+
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  const { pg, amount, requestId, merchantUid } = query;
+
+  await removePayment(merchantUid.toString());
+
+  return {
+    props: {
+      querystring: `?pg=${pg}&amount=${amount}&requestId=${requestId}&errorMsg=${encodeURIComponent(
+        '사용자가 결제를 취소하셨습니다.'
+      )}`,
+    },
+  };
+};
