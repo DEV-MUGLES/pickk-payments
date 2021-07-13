@@ -110,7 +110,7 @@ export type PayRequestParam = Pick<
   /** 결제 요청 user id */
   userId: number;
 
-  orderSheetUuId: string;
+  orderSheetUuid: string;
 };
 
 export enum PayEnviroment {
