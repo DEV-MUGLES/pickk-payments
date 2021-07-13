@@ -5,6 +5,7 @@ import {
   STDPAY_BASE_PARAMS,
 } from 'inicis';
 
+import { encodeParamsToUrl } from '@src/common';
 import { requestInicisPrepare } from '../../helpers';
 import { InicisPrepareParam } from '../../types';
 
@@ -42,7 +43,11 @@ export const serializeInicisStdpayParams = async (
     returnUrl: `${location.origin}/inicis/std/return?requestId=${params.requestId}`,
     closeUrl: `${location.origin}/inicis/close?pg=inicis&amount=${payment.amount}&requestId=${params.requestId}`,
     acceptmethod: `below1000:va_receipt:SKIN(${skinColor}):popreturn:HPP(2)`,
-    merchantData: `${params.requestId},${payment.amount}`,
+    merchantData: encodeParamsToUrl({
+      requestId: params.requestId,
+      merchantUid: payment.merchantUid,
+      amount: payment.amount,
+    }),
     logo_url: 'https://pay.pickk.one/images/logo.png',
   };
 

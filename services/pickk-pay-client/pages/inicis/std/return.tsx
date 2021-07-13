@@ -3,8 +3,13 @@ import { GetServerSideProps } from 'next';
 import { StdPayResult } from 'inicis';
 import { Pg } from '@pickk/pay';
 
-import { getParsedBody, response, ResponseData } from '@src/common';
-import { Inicis } from '@src/pgs/inicis';
+import {
+  decodeUrlToParams,
+  getParsedBody,
+  response,
+  ResponseData,
+} from '@src/common';
+import { Inicis, StdpayMerchantData } from '@src/pgs/inicis';
 
 export default function InicisStdReturnPage(props: ResponseData) {
   useEffect(() => {
@@ -45,7 +50,7 @@ const handleFail = async (
   skipNetCancel = false
 ): Promise<ResponseData> => {
   const { resultMsg: errorMsg, merchantData } = result;
-  const requestId = merchantData.split(',')[0];
+  const { requestId } = decodeUrlToParams<StdpayMerchantData>(merchantData);
 
   if (!skipNetCancel) {
     await Inicis.stdNetCancel(result.netCancelUrl, result.authToken);
@@ -68,7 +73,11 @@ const handleSuccess = async (result: StdPayResult): Promise<ResponseData> => {
       throw new Error('Auth 처리에 실패했습니다.');
     }
 
-    return Inicis.stdComplete(authResult, result.merchantData.split(',')[0], {
+    const { requestId } = decodeUrlToParams<StdpayMerchantData>(
+      result.merchantData
+    );
+
+    return Inicis.stdComplete(authResult, requestId, {
       url: result.netCancelUrl,
       authToken: result.authToken,
     });
