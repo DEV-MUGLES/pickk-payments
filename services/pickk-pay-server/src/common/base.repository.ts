@@ -7,7 +7,7 @@ import { MultipleEntityReturnedException } from '@common/exceptions/multiple-ent
 import { BaseIdEntity } from './entities/base-id.entity';
 
 export class BaseRepository<
-  Entity extends BaseIdEntity,
+  Entity extends BaseIdEntity
 > extends Repository<Entity> {
   protected isEntity(obj: unknown): obj is Entity {
     return obj !== undefined && (obj as Entity).id !== undefined;
@@ -30,7 +30,7 @@ export class BaseRepository<
 
   async createEntity(
     inputs: DeepPartial<Entity>,
-    relations: string[] = [],
+    relations: string[] = []
   ): Promise<Entity | null> {
     return this.save(inputs)
       .then(async (entity) => await this.get((entity as any).id, relations))
@@ -40,7 +40,7 @@ export class BaseRepository<
   async updateEntity(
     entity: Entity,
     inputs: QueryDeepPartialEntity<Entity>,
-    relations: string[] = [],
+    relations: string[] = []
   ): Promise<Entity | null> {
     return this.update(entity.id, { ...inputs })
       .then(async () => await this.get(entity.id, relations))
@@ -49,7 +49,7 @@ export class BaseRepository<
 
   async findOneEntity(
     param: FindOneOptions<Entity>['where'],
-    relations: string[] = [],
+    relations: string[] = []
   ): Promise<Entity | null> {
     return await this.find({
       where: param,
@@ -59,7 +59,7 @@ export class BaseRepository<
         throw new MultipleEntityReturnedException();
       }
       if (entities.length === 0 || !this.isEntity(entities[0])) {
-        return null;
+        throw new NotFoundException('Entity가 존재하지 않습니다.');
       }
 
       return Promise.resolve(entities[0]);

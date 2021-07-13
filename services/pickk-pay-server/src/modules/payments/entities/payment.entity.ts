@@ -35,7 +35,7 @@ import { PaymentCancellation } from './payment-cancellation.entity';
 @Index('id_created-at', ['createdAt'])
 export class Payment extends BaseIdEntity implements IPayment {
   public static genMerchantUid(
-    timestamp = new Date().getTime().toString(),
+    timestamp = new Date().getTime().toString()
   ): string {
     return `${timestamp}${getRandomString(4)}`;
   }

@@ -2,6 +2,7 @@ import { SuperSecret } from '@auth/decorators';
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Inject,
   Param,
@@ -25,13 +26,13 @@ import { PaymentsService } from './payments.service';
 @Controller('/payments')
 export class PaymentsController {
   constructor(
-    @Inject(PaymentsService) private readonly paymentsService: PaymentsService,
+    @Inject(PaymentsService) private readonly paymentsService: PaymentsService
   ) {}
 
   @ApiOperation({ description: '결제 목록을 반환합니다.' })
   @Get()
   async list(
-    @Query() paymentFilter: PaymentFilter,
+    @Query() paymentFilter: PaymentFilter
   ): Promise<PaymentListResponseDto> {
     const payments = await this.paymentsService.list(paymentFilter, [
       'cancellations',
@@ -51,7 +52,7 @@ export class PaymentsController {
   @Patch('/:merchantUid')
   async update(
     @Param('merchantUid') merchantUid: string,
-    @Body() updatePaymentDto: UpdatePaymentDto,
+    @Body() updatePaymentDto: UpdatePaymentDto
   ): Promise<Payment> {
     const payment = await this.paymentsService.findOne({ merchantUid }, [
       'cancellations',
@@ -63,11 +64,19 @@ export class PaymentsController {
   @Post('/:merchantUid/cancel')
   async cancel(
     @Param('merchantUid') merchantUid: string,
-    @Body() cancelPaymentDto: CancelPaymentDto,
+    @Body() cancelPaymentDto: CancelPaymentDto
   ) {
     const payment = await this.paymentsService.findOne({ merchantUid }, [
       'cancellations',
     ]);
     await this.paymentsService.cancel(payment, cancelPaymentDto);
+  }
+
+  @ApiOperation({ description: '[SuperSecret] 지정한 결제건을 삭제합니다.' })
+  @SuperSecret()
+  @Delete('/:merchantUid')
+  async remove(@Param('merchantUid') merchantUid: string) {
+    const payment = await this.paymentsService.findOne({ merchantUid });
+    await this.paymentsService.remove(payment);
   }
 }

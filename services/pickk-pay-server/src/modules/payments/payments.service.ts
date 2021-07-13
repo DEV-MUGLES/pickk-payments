@@ -1,8 +1,9 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { getManager } from 'typeorm';
 import { plainToClass } from 'class-transformer';
 import { PaymentStatus } from '@pickk/pay';
+import * as dayjs from 'dayjs';
 
 import { parseFilter } from '@common/helpers';
 import { InicisService } from '@inicis/inicis.service';
@@ -19,7 +20,7 @@ export class PaymentsService {
     @InjectRepository(PaymentsRepository)
     private readonly paymentsRepository: PaymentsRepository,
     @Inject(InicisService)
-    private readonly inicisService: InicisService,
+    private readonly inicisService: InicisService
   ) {}
 
   async genMerchantUid(timestamp: string): Promise<string> {
@@ -41,26 +42,26 @@ export class PaymentsService {
 
   async update(
     payment: Payment,
-    updatePaymentDto: UpdatePaymentDto,
+    updatePaymentDto: UpdatePaymentDto
   ): Promise<Payment> {
     return await this.paymentsRepository.save(
       new Payment({
         ...payment,
         ...updatePaymentDto,
-      }),
+      })
     );
   }
 
   async findOne(
     param: Partial<Payment>,
-    relations: string[] = [],
+    relations: string[] = []
   ): Promise<Payment | null> {
     return await this.paymentsRepository.findOneEntity(param, relations);
   }
 
   async list(
     paymentFilter?: PaymentFilter,
-    relations: string[] = [],
+    relations: string[] = []
   ): Promise<Payment[]> {
     const _paymentFilter = plainToClass(PaymentFilter, paymentFilter);
 
@@ -90,5 +91,23 @@ export class PaymentsService {
   async confirmVbankPaid(payment: Payment): Promise<Payment> {
     payment.confirmVbankPaid();
     return await this.paymentsRepository.save(payment);
+  }
+
+  async remove(payment: Payment): Promise<void> {
+    if (
+      ![PaymentStatus.Pending, PaymentStatus.Failed].includes(payment.status)
+    ) {
+      throw new BadRequestException(
+        '미결제 상태인 결제건만 삭제할 수 있습니다.'
+      );
+    }
+    // check if payment is created before one day
+    if (dayjs(payment.createdAt).diff(dayjs(), 'days') > 1) {
+      throw new BadRequestException(
+        '1일 이내에 생성된 결제건만 삭제할 수 있습니다.'
+      );
+    }
+
+    await this.paymentsRepository.remove(payment);
   }
 }
