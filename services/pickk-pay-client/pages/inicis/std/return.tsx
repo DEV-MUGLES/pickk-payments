@@ -86,6 +86,9 @@ const handleSuccess = async (result: StdPayResult): Promise<ResponseData> => {
 
     await completePayment(merchantUid, sar2cpd(authResult));
 
+    // @TODO: 주문생성 구현되는대로 교체하기
+    throw new Error('임의로 에러발생');
+
     return {
       success: true,
       pg: Pg.Inicis,
