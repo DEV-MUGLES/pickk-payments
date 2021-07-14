@@ -18,16 +18,16 @@ export class InicisStdVbankNotiDto implements StdpayVbankNoti {
   public static validate(
     dto: InicisStdVbankNotiDto,
     payment: Payment,
-    transaction: IniapiGetTransactionResult,
+    transaction: IniapiGetTransactionResult
   ): boolean {
     if (payment.pg !== Pg.Inicis) {
       throw new BadRequestException(
-        '[KG이니시스 가상계좌 입금통보] 이니시스 거래건이 아닙니다.',
+        '[KG이니시스 가상계좌 입금통보] 이니시스 거래건이 아닙니다.'
       );
     }
     if (payment.payMethod !== PayMethod.Vbank) {
       throw new BadRequestException(
-        `[KG이니시스 가상계좌 입금통보] 가상계좌 거래건이 아닙니다. (지불수단: ${payment.payMethod})`,
+        `[KG이니시스 가상계좌 입금통보] 가상계좌 거래건이 아닙니다. (지불수단: ${payment.payMethod})`
       );
     }
     if (payment.status !== PaymentStatus.VbankReady) {
@@ -37,12 +37,12 @@ export class InicisStdVbankNotiDto implements StdpayVbankNoti {
       throw new VbankInvalidPricesException(
         dto.amt_input,
         payment.amount,
-        transaction.price,
+        transaction.price
       );
     }
     if (transaction.status !== 'Y') {
       throw new BadRequestException(
-        '[KG이니시스 가상계좌 입금통보] 입금완료되지 않은 거래입니다.',
+        '[KG이니시스 가상계좌 입금통보] 입금완료되지 않은 거래입니다.'
       );
     }
     return true;

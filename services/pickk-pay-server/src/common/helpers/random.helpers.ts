@@ -11,7 +11,7 @@ export const getRandomEle = <T = unknown>(arr: T[]): T =>
 
 export const getRandomEnumValue = (input) =>
   getRandomEle(
-    Object.values(input).filter((value) => typeof value === 'string'),
+    Object.values(input).filter((value) => typeof value === 'string')
   );
 
 export const getRandomString = (length = 6): string => {

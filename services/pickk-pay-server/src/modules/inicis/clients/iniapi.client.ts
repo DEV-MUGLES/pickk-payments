@@ -22,7 +22,7 @@ export class IniapiClient {
   }
 
   public getCancelParams(
-    cancelDto: InicisCancelDto,
+    cancelDto: InicisCancelDto
   ):
     | IniapiRefundRequestParams
     | IniapiPartialRefundRequestParams
@@ -65,7 +65,7 @@ export class IniapiClient {
         getHashDataString('Refund') +
           price.toString() +
           confirmPrice.toString(),
-        'RSA-SHA512',
+        'RSA-SHA512'
       ),
       price,
       confirmPrice,
@@ -77,7 +77,7 @@ export class IniapiClient {
 
   public getGetTransactionParams(
     tid: string,
-    oid: string,
+    oid: string
   ): IniapiGetTransactionRequestParams {
     const type = 'Extra';
     const paymethod = 'Inquiry';
@@ -85,7 +85,7 @@ export class IniapiClient {
 
     const hashData = hash(
       INICIS_INIAPI_KEY + type + paymethod + timestamp + clientIp + mid,
-      'RSA-SHA512',
+      'RSA-SHA512'
     );
 
     return {

@@ -20,12 +20,12 @@ faker.setLocale('ko');
 export class PaymentSeeder {
   constructor(
     @InjectRepository(PaymentsRepository)
-    private readonly paymentsRepository: PaymentsRepository,
+    private readonly paymentsRepository: PaymentsRepository
   ) {}
 
   async seed(): Promise<void> {
     const payments = this.createPaymentInputs().map(
-      (input) => new Payment(input),
+      (input) => new Payment(input)
     );
     await this.paymentsRepository.save(payments);
   }

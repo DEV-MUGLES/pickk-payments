@@ -19,7 +19,7 @@ import { InicisService } from './inicis.service';
 export class InicisController {
   constructor(
     @Inject(PaymentsService) private readonly paymentsService: PaymentsService,
-    @Inject(InicisService) private readonly inicisService: InicisService,
+    @Inject(InicisService) private readonly inicisService: InicisService
   ) {}
 
   // @TODO: SQS에 webhook 알림 추가하기
@@ -59,7 +59,7 @@ export class InicisController {
   @Public()
   @Post('/prepare')
   async prepare(
-    @Body() dto: InicisPrepareRequestDto,
+    @Body() dto: InicisPrepareRequestDto
   ): Promise<InicisPrepareResponseDto> {
     const timestamp = new Date().getTime().toString();
     const merchantUid = await this.paymentsService.genMerchantUid(timestamp);

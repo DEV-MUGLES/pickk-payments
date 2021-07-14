@@ -16,7 +16,7 @@ export class AuthService {
   isAdminUser(username: string, password: string): boolean {
     return (
       ADMIN_USERS.findIndex(
-        (user) => user.name === username && user.password === password,
+        (user) => user.name === username && user.password === password
       ) >= 0
     );
   }

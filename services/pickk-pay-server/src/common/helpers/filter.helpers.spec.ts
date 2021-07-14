@@ -55,20 +55,20 @@ describe('FilterHelpers', () => {
         isSearchableFilter({
           search: 'hi',
           searchFields: ['name', 'title'],
-        }),
+        })
       ).toEqual(true);
       expect(
         isSearchableFilter({
           search: 'hi',
           searchFields: ['name', 'title'],
           age: 27,
-        }),
+        })
       ).toEqual(true);
       expect(
         isSearchableFilter({
           search: '',
           searchFields: [],
-        }),
+        })
       ).toEqual(true);
     });
 
@@ -164,7 +164,7 @@ describe('FilterHelpers', () => {
             nameIn: itemNameIn,
             brandKor: '수아레',
           },
-        }),
+        })
       ).toEqual({
         user: {
           age: MoreThanOrEqual(userAgeMte),

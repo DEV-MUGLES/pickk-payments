@@ -7,7 +7,7 @@ import { JwtPayload } from './dtos/jwt.dto';
 
 export const CustomJwtStrategy = (
   name?: string,
-  secretOrKey: string = jwtConstants.secret,
+  secretOrKey: string = jwtConstants.secret
 ) =>
   class ResultStrategy extends PassportStrategy(Strategy, name) {
     constructor() {
@@ -29,5 +29,5 @@ export class JwtStrategy extends CustomJwtStrategy() {}
 @Injectable()
 export class JwtRefreshStrategy extends CustomJwtStrategy(
   'jwt-refresh',
-  jwtRefreshConstants.secret,
+  jwtRefreshConstants.secret
 ) {}

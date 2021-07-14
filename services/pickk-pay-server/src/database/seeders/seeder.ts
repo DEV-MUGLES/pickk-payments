@@ -6,7 +6,7 @@ import { PaymentSeeder } from './payment/payment.seeder';
 export class Seeder {
   constructor(
     private readonly paymentSeeder: PaymentSeeder,
-    private readonly logger: Logger,
+    private readonly logger: Logger
   ) {}
 
   async seed() {

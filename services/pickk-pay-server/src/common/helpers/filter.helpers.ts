@@ -23,7 +23,7 @@ type TSearchableFilter = {
 };
 
 export const isSearchableFilter = (
-  value: TFilter,
+  value: TFilter
 ): value is TSearchableFilter => {
   return (
     value != null &&

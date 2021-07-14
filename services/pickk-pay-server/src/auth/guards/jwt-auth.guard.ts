@@ -19,7 +19,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
 
     const isSuperSecret = this.reflector.getAllAndOverride<boolean>(
       IS_SUPER_SECRET_KEY,
-      [context.getHandler(), context.getClass()],
+      [context.getHandler(), context.getClass()]
     );
     if (isSuperSecret) {
       throw new SuperSecretException();

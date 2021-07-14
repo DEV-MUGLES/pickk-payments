@@ -36,7 +36,7 @@ describe('CancelPaymentDto', () => {
     it('throw NotJoinedCancelException', () => {
       const payment = new Payment();
       expect(() => CancelPaymentDto.validate(dto, payment)).toThrow(
-        NotJoinedCancelException,
+        NotJoinedCancelException
       );
     });
 
@@ -45,7 +45,7 @@ describe('CancelPaymentDto', () => {
         cancellations: [],
       });
       expect(() => CancelPaymentDto.validate(dto, payment)).toThrow(
-        StatusInvalidToCancelException,
+        StatusInvalidToCancelException
       );
     });
 
@@ -56,7 +56,7 @@ describe('CancelPaymentDto', () => {
         cancellations: [],
       });
       expect(() => CancelPaymentDto.validate(dto, payment)).toThrow(
-        NotEnoughRemainAmountException,
+        NotEnoughRemainAmountException
       );
     });
 
@@ -67,7 +67,7 @@ describe('CancelPaymentDto', () => {
         cancellations: [],
       });
       expect(() =>
-        CancelPaymentDto.validate({ ...dto, checksum: amount - 10 }, payment),
+        CancelPaymentDto.validate({ ...dto, checksum: amount - 10 }, payment)
       ).toThrow(InconsistentChecksumException);
     });
 
@@ -79,7 +79,7 @@ describe('CancelPaymentDto', () => {
         cancellations: [],
       });
       expect(() => CancelPaymentDto.validate(dto, payment)).toThrow(
-        VbankRefundInfoRequiredException,
+        VbankRefundInfoRequiredException
       );
     });
   });

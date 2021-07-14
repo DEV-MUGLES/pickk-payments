@@ -7,7 +7,7 @@ export class AddPaymentCreatedAtIndex1626074849472
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      'CREATE INDEX `id_created-at` ON `payment` (`createdAt`)',
+      'CREATE INDEX `id_created-at` ON `payment` (`createdAt`)'
     );
   }
 

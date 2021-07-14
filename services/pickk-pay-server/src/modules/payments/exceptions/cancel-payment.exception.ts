@@ -32,7 +32,7 @@ export class NotJoinedCancelException extends InternalServerErrorException {
 export class VbankRefundInfoRequiredException extends BadRequestException {
   constructor() {
     super(
-      '가상계좌 결제건을 취소하기 위한 환불계좌 정보가 제공되지 않았습니다.',
+      '가상계좌 결제건을 취소하기 위한 환불계좌 정보가 제공되지 않았습니다.'
     );
   }
 }

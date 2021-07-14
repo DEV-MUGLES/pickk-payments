@@ -32,7 +32,7 @@ export class InicisService {
             'Content-type': 'application/x-www-form-urlencoded',
             charset: 'utf-8',
           },
-        },
+        }
       )
       .toPromise();
 
@@ -44,7 +44,7 @@ export class InicisService {
 
   async getTransaction(
     tid: string,
-    oid: string,
+    oid: string
   ): Promise<IniapiGetTransactionResult> {
     const params = new IniapiClient().getGetTransactionParams(tid, oid);
 
@@ -57,7 +57,7 @@ export class InicisService {
             'Content-type': 'application/x-www-form-urlencoded',
             charset: 'utf-8',
           },
-        },
+        }
       )
       .toPromise();
 
@@ -77,34 +77,34 @@ export class InicisService {
 
   async validateStdVbankNoti(
     dto: InicisStdVbankNotiDto,
-    payment: Payment,
+    payment: Payment
   ): Promise<boolean> {
     if (!payment) {
       throw new NotFoundException(
-        '[KG이니시스 가상계좌 입금통보] 해당 입금건에 대한 결제정보가 존재하지 않습니다.',
+        '[KG이니시스 가상계좌 입금통보] 해당 입금건에 대한 결제정보가 존재하지 않습니다.'
       );
     }
 
     const transaction = await this.getTransaction(
       payment.pgTid,
-      payment.merchantUid,
+      payment.merchantUid
     );
     return InicisStdVbankNotiDto.validate(dto, payment, transaction);
   }
 
   async validateMobVbankNoti(
     dto: InicisMobVbankNotiDto,
-    payment: Payment,
+    payment: Payment
   ): Promise<boolean> {
     if (!payment) {
       throw new NotFoundException(
-        '[KG이니시스 가상계좌 입금통보] 해당 입금건에 대한 결제정보가 존재하지 않습니다.',
+        '[KG이니시스 가상계좌 입금통보] 해당 입금건에 대한 결제정보가 존재하지 않습니다.'
       );
     }
 
     const transaction = await this.getTransaction(
       payment.pgTid,
-      payment.merchantUid,
+      payment.merchantUid
     );
     return InicisMobVbankNotiDto.validate(dto, payment, transaction);
   }
