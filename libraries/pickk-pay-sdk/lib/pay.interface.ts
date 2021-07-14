@@ -119,6 +119,8 @@ export enum PayEnviroment {
 
 export type PayResponse = Pick<PayRequestParam, 'pg' | 'mRedirectUrl'> & {
   success: boolean;
+  errorCode?: string;
+  errorMsg?: string;
 
   /** 모바일 pay(onWeb)에서 사용 */
   action?: string;
