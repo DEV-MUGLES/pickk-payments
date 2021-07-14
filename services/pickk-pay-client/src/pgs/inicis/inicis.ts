@@ -1,31 +1,17 @@
-import {
-  isMobile,
-  PayResponse,
-  Pg,
-  PayMessage,
-  formToJson,
-  generateForm,
-} from '@pickk/pay';
+import { isMobile, Pg, PayMessage, formToJson, generateForm } from '@pickk/pay';
 import InicisClient, {
   getRandomString,
   hash,
   IniapiCommonRequestParams,
   IniapiGetTransactionResult,
-  MobpayAuthResult,
   MobpayNetCancelInput,
   sign,
 } from 'inicis';
 import dayjs from 'dayjs';
 
-import {
-  BadRequestException,
-  getClientIp,
-  response,
-  ResponseData,
-} from '@src/common';
+import { BadRequestException, getClientIp, response } from '@src/common';
 
 import {
-  mobAuthResultToResponseData,
   serializeInicisMobpayParams,
   serializeInicisStdpayParams,
 } from './serializers';
@@ -156,10 +142,6 @@ export class Inicis {
     }
 
     return await requestInicisMobNetCancel(url, netCancelMap);
-  }
-
-  static mobComplete(authResult: MobpayAuthResult): ResponseData {
-    return mobAuthResultToResponseData(authResult);
   }
 
   static async getIniapiMap(

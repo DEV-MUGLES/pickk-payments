@@ -4,6 +4,7 @@ import { MobpayResult } from 'inicis';
 import { Pg } from '@pickk/pay';
 
 import {
+  completePayment,
   decodeUrlToParams,
   encodeParamsToUrl,
   getParsedBody,
@@ -11,7 +12,7 @@ import {
   prepareOrder,
   ResponseData,
 } from '@src/common';
-import { Inicis, MobpayNoti } from '@src/pgs/inicis';
+import { Inicis, mar2cpd, MobpayNoti } from '@src/pgs/inicis';
 
 export default function InicisMobReturnPage(props: ResponseData) {
   useEffect(() => {
@@ -84,9 +85,12 @@ const handleFail = async (
 
 const handleSuccess = async (result: MobpayResult): Promise<ResponseData> => {
   try {
-    const { userId, orderSheetUuid } = decodeUrlToParams<MobpayNoti>(
-      result.P_NOTI
-    );
+    const {
+      userId,
+      orderSheetUuid,
+      oid: merchantUid,
+      requestId,
+    } = decodeUrlToParams<MobpayNoti>(result.P_NOTI);
     await prepareOrder(userId, orderSheetUuid);
 
     const authResult = await Inicis.mobAuth(result.P_REQ_URL, result.P_TID);
@@ -95,7 +99,14 @@ const handleSuccess = async (result: MobpayResult): Promise<ResponseData> => {
       throw new Error('Auth 처리에 실패했습니다.');
     }
 
-    return Inicis.mobComplete(authResult);
+    await completePayment(merchantUid, mar2cpd(authResult));
+
+    return {
+      success: true,
+      pg: Pg.Inicis,
+      requestId,
+      merchantUid,
+    };
   } catch (error) {
     return await handleFail(result);
   }
