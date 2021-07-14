@@ -8,6 +8,7 @@ import {
   encodeParamsToUrl,
   getParsedBody,
   markPaymentFailed,
+  prepareOrder,
   ResponseData,
 } from '@src/common';
 import { Inicis, MobpayNoti } from '@src/pgs/inicis';
@@ -83,6 +84,11 @@ const handleFail = async (
 
 const handleSuccess = async (result: MobpayResult): Promise<ResponseData> => {
   try {
+    const { userId, orderSheetUuid } = decodeUrlToParams<MobpayNoti>(
+      result.P_NOTI
+    );
+    await prepareOrder(userId, orderSheetUuid);
+
     const authResult = await Inicis.mobAuth(result.P_REQ_URL, result.P_TID);
 
     if (authResult.P_STATUS !== '00') {

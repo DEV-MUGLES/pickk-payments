@@ -47,6 +47,8 @@ export const serializeInicisStdpayParams = async (
       requestId: params.requestId,
       merchantUid: payment.merchantUid,
       amount: payment.amount,
+      userId: params.userId,
+      orderSheetUuid: params.orderSheetUuid,
     }),
     logo_url: 'https://pay.pickk.one/images/logo.png',
   };

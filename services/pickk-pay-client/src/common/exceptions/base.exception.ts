@@ -2,7 +2,7 @@ export class BaseException extends Error {
   name: string;
   code: number;
 
-  constructor(name: string, code: number = 500, message?: string) {
+  constructor(name: string, code = 500, message?: string) {
     const fullMsg = message ? `${name}: ${message}` : name;
 
     super(fullMsg);

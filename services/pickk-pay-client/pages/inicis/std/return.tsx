@@ -7,6 +7,7 @@ import {
   decodeUrlToParams,
   getParsedBody,
   markPaymentFailed,
+  prepareOrder,
   response,
   ResponseData,
 } from '@src/common';
@@ -71,15 +72,16 @@ const handleFail = async (
 
 const handleSuccess = async (result: StdPayResult): Promise<ResponseData> => {
   try {
+    const { requestId, userId, orderSheetUuid } =
+      decodeUrlToParams<StdpayMerchantData>(result.merchantData);
+
+    await prepareOrder(userId, orderSheetUuid);
+
     const authResult = await Inicis.stdAuth(result.authUrl, result.authToken);
 
     if (authResult.resultCode !== '0000') {
       throw new Error('Auth 처리에 실패했습니다.');
     }
-
-    const { requestId } = decodeUrlToParams<StdpayMerchantData>(
-      result.merchantData
-    );
 
     return Inicis.stdComplete(authResult, requestId, {
       url: result.netCancelUrl,

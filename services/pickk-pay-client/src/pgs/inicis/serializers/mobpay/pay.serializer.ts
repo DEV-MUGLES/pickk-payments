@@ -80,6 +80,8 @@ export const serializeInicisMobpayParams = async (
       buyerName: payment.buyerName,
       buyerTel: payment.buyerTel,
       oid: payment.merchantUid,
+      userId: params.userId,
+      orderSheetUuid: params.orderSheetUuid,
     } as MobpayNoti),
   };
 
