@@ -1,6 +1,6 @@
 import { PayResponse } from '@pickk/pay';
 
-export type ResponseData = PayResponse & { requestId?: string };
+export type ResponseData = PayResponse;
 
 export const response = (
   action: string,

@@ -14,7 +14,6 @@ import InicisClient, {
   MobpayAuthResult,
   MobpayNetCancelInput,
   sign,
-  StdPayAuthResult,
 } from 'inicis';
 import dayjs from 'dayjs';
 
@@ -26,7 +25,6 @@ import {
 } from '@src/common';
 
 import {
-  stdAuthResultToPayResponse,
   mobAuthResultToResponseData,
   serializeInicisMobpayParams,
   serializeInicisStdpayParams,
@@ -158,17 +156,6 @@ export class Inicis {
     }
 
     return await requestInicisMobNetCancel(url, netCancelMap);
-  }
-
-  static stdComplete(
-    authResult: StdPayAuthResult,
-    requestId: string,
-    netCancelData: PayResponse['netCancelData']
-  ): ResponseData {
-    return {
-      ...stdAuthResultToPayResponse(authResult, netCancelData),
-      requestId,
-    };
   }
 
   static mobComplete(authResult: MobpayAuthResult): ResponseData {

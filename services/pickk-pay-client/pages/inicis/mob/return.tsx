@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import { MobpayResult } from 'inicis';
-import { PayResponse, Pg } from '@pickk/pay';
+import { Pg } from '@pickk/pay';
 
 import {
   decodeUrlToParams,
@@ -32,7 +32,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   const payResult = await getParsedBody<MobpayResult>(req);
   const { mRedirectUrl } = decodeUrlToParams<MobpayNoti>(payResult.P_NOTI);
 
-  let props: PayResponse & { requestId?: string } = null;
+  let props: ResponseData = null;
 
   try {
     // 실패했을 때

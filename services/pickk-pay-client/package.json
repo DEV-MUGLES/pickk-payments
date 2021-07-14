@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/DEV-MUGLES/pickk-pay-server#readme",
   "dependencies": {
-    "@pickk/pay": "^1.1.8",
+    "@pickk/pay": "^1.3.0",
     "dayjs": "^1.10.5",
     "inicis": "^1.2.8",
     "next": "^11.0.0",

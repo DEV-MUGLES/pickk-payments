@@ -1,87 +1,30 @@
+import { StdPayAuthResult, StdPayPayMethod } from 'inicis';
 import dayjs from 'dayjs';
-import { PayMethod, PayResponse, Pg } from '@pickk/pay';
-import { InicisSourceCode, StdPayAuthResult, StdPayPayMethod } from 'inicis';
 
-export const getStdPaymethod = (authResult: StdPayAuthResult) => {
-  if (authResult.payMethod === StdPayPayMethod.Card) {
-    const {
-      KakaoPay,
-      Payco,
-      LPay,
-      SsgPay,
-      TossPay,
-      NaverPay,
-      SamsungPay,
-      KPay,
-      ChaiPay,
-    } = InicisSourceCode;
+import { CompletePaymentDto } from '@src/common';
 
-    const { CARD_SrcCode: srcCode, CARD_CouponPrice: couponPrice } = authResult;
-
-    // 간편결제 자체 포인트 100% 결제시 'point' 반환
-    if (couponPrice === 0) {
-      return PayMethod.Point;
-    }
-
-    return (
-      {
-        [KakaoPay]: PayMethod.Kakaopay,
-        [Payco]: PayMethod.Payco,
-        [LPay]: PayMethod.Lpay,
-        [SsgPay]: PayMethod.Ssgpay,
-        [TossPay]: PayMethod.Tosspay,
-        [NaverPay]: PayMethod.Naverpay,
-        [SamsungPay]: PayMethod.Samsungpay,
-        [KPay]: PayMethod.Kpay,
-        [ChaiPay]: PayMethod.Chaipay,
-      }[srcCode] ?? PayMethod.Card
-    );
-  }
-
-  const { Card, DirectBank, VBank, HPP } = StdPayPayMethod;
-
-  return (
-    {
-      [Card]: PayMethod.Card,
-      [DirectBank]: PayMethod.Trans,
-      [VBank]: PayMethod.Vbank,
-      [HPP]: PayMethod.Phone,
-    }[authResult.payMethod] ?? PayMethod.Card
-  );
-};
-
-export const stdAuthResultToPayResponse = (
-  result: StdPayAuthResult,
-  netCancelData: PayResponse['netCancelData']
-): PayResponse => {
-  const payResponse: PayResponse = {
-    success: true,
-    pg: Pg.Inicis,
-    payMethod: getStdPaymethod(result),
-    oid: result.tid,
-    amount: result.TotPrice,
-    name: result.goodName,
-    buyerName: result.buyerName,
-    buyerTel: result.buyerTel,
-    buyerEmail: result.buyerEmail,
-    applyNum: result.applNum,
-    paidAt: dayjs(
-      `${result.applDate}${result.applTime}`,
-      'YYYYMMDDHHmmss'
-    ).unix(),
-    netCancelData,
+/** serialize StdAuthResult to CompletePaymentDto */
+export const sar2cpd = (sar: StdPayAuthResult): CompletePaymentDto => {
+  const result: CompletePaymentDto = {
+    pgTid: sar.tid,
   };
 
-  if (result.payMethod === StdPayPayMethod.VBank) {
-    payResponse.vbankNum = result.VACT_Num;
-    payResponse.vbankName = result.vactBankName;
-    payResponse.vbankHolder = result.VACT_Name;
-    payResponse.vbankSender = result.VACT_InputName;
-    payResponse.vbankDate = dayjs(
-      `${result.VACT_Date}${result.VACT_Time}`,
+  if (sar.payMethod === StdPayPayMethod.Card) {
+    result.applyNum = sar.applNum;
+    result.cardCode = sar.CARD_Code;
+    result.cardNum = sar.CARD_Num;
+  }
+  if (sar.payMethod === StdPayPayMethod.VBank) {
+    result.vbankCode = sar.VACT_BankCode;
+    result.vbankHolder = sar.VACT_Name;
+    result.vbankNum = sar.VACT_Num;
+    result.vbankDate = dayjs(
+      `${sar.VACT_Date}${sar.VACT_Time}`,
       'YYYYMMDDHHmmss'
-    ).unix();
+    )
+      .unix()
+      .toString();
   }
 
-  return payResponse;
+  return result;
 };
