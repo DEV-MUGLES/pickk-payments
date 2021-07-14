@@ -119,7 +119,9 @@ export enum PayEnviroment {
 
 export type PayResponse = Pick<PayRequestParam, 'pg' | 'mRedirectUrl'> & {
   success: boolean;
+  /** 에러코드. 실패시에만 반환됩니다. */
   errorCode?: string;
+  /** 에러메세지. 실패시에만 반환됩니다. */
   errorMsg?: string;
 
   /** 모바일 pay(onWeb)에서 사용 */
@@ -128,7 +130,9 @@ export type PayResponse = Pick<PayRequestParam, 'pg' | 'mRedirectUrl'> & {
   formData?: MobpayRequestParams;
 
   requestId: string;
-  merchantUid: string;
+
+  /** 완료시에만 반환됩니다. */
+  merchantUid?: string;
 };
 
 export type PayCallback = (res: PayResponse) => void;
