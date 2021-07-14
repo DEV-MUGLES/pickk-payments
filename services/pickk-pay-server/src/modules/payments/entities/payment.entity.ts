@@ -1,3 +1,4 @@
+import { BadRequestException } from '@nestjs/common';
 import { Column, Entity, Index, JoinColumn, OneToMany } from 'typeorm';
 import {
   IsDateString,
@@ -27,8 +28,8 @@ import { BaseIdEntity } from '@common/entities';
 import { getRandomString } from '@common/helpers';
 
 import { CancelPaymentDto } from '../dtos';
+import { CompletePaymentDto } from '../dtos/complete-payment.dto';
 import { PaymentCancellation } from './payment-cancellation.entity';
-import { BadRequestException } from '@nestjs/common';
 
 @Entity('payment')
 @Index('id_merchant-uid', ['merchantUid'])
@@ -61,6 +62,11 @@ export class Payment extends BaseIdEntity implements IPayment {
   }
 
   public confirmVbankPaid() {
+    if (this.status !== PaymentStatus.VbankReady) {
+      throw new BadRequestException(
+        '입금대기 상태인 결제건만 입금완료 처리할 수 있습니다.'
+      );
+    }
     this.markPaid();
   }
 
@@ -71,6 +77,22 @@ export class Payment extends BaseIdEntity implements IPayment {
       );
     }
     this.markFailed();
+  }
+
+  public complete(dto: CompletePaymentDto): void {
+    if (this.status !== PaymentStatus.Pending) {
+      throw new BadRequestException(
+        '미결제 상태인 결제건만 완료 처리할 수 있습니다.'
+      );
+    }
+
+    Object.assign(this, dto);
+
+    if (this.payMethod === PayMethod.Vbank) {
+      this.markVbankReady();
+    } else {
+      this.markPaid();
+    }
   }
 
   private markCancelled(type: PaymentCancellationType) {
@@ -89,6 +111,10 @@ export class Payment extends BaseIdEntity implements IPayment {
   private markFailed() {
     this.failedAt = new Date();
     this.status = PaymentStatus.Failed;
+  }
+
+  private markVbankReady() {
+    this.status = PaymentStatus.VbankReady;
   }
 
   constructor(attributes?: Partial<Payment>) {

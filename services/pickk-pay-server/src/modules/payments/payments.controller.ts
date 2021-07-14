@@ -17,6 +17,7 @@ import {
   PaymentFilter,
   CancelPaymentDto,
 } from './dtos';
+import { CompletePaymentDto } from './dtos/complete-payment.dto';
 import { CreatePaymentDto } from './dtos/create-payment.dto';
 import { UpdatePaymentDto } from './dtos/update-payment.dto';
 import { Payment } from './entities';
@@ -88,5 +89,18 @@ export class PaymentsController {
   async fail(@Param('merchantUid') merchantUid: string) {
     const payment = await this.paymentsService.findOne({ merchantUid });
     await this.paymentsService.fail(payment);
+  }
+
+  @ApiOperation({
+    description: '[SuperSecret] 지정한 결제건을 완료(paid) 처리합니다.',
+  })
+  @SuperSecret()
+  @Post('/:merchantUid/complete')
+  async complete(
+    @Param('merchantUid') merchantUid: string,
+    @Body() completePaymentDto: CompletePaymentDto
+  ) {
+    const payment = await this.paymentsService.findOne({ merchantUid });
+    await this.paymentsService.complete(payment, completePaymentDto);
   }
 }

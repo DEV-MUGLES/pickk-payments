@@ -9,10 +9,11 @@ import { parseFilter } from '@common/helpers';
 import { InicisService } from '@inicis/inicis.service';
 
 import { CancelPaymentDto, PaymentFilter } from './dtos';
-import { Payment } from './entities';
-import { PaymentsRepository } from './payments.repository';
 import { CreatePaymentDto } from './dtos/create-payment.dto';
 import { UpdatePaymentDto } from './dtos/update-payment.dto';
+import { CompletePaymentDto } from './dtos/complete-payment.dto';
+import { Payment } from './entities';
+import { PaymentsRepository } from './payments.repository';
 
 @Injectable()
 export class PaymentsService {
@@ -113,6 +114,11 @@ export class PaymentsService {
 
   async fail(payment: Payment): Promise<Payment> {
     payment.fail();
+    return await this.paymentsRepository.save(payment);
+  }
+
+  async complete(payment: Payment, dto: CompletePaymentDto): Promise<Payment> {
+    payment.complete(dto);
     return await this.paymentsRepository.save(payment);
   }
 }
