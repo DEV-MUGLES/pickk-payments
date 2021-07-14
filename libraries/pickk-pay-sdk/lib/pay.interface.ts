@@ -118,55 +118,15 @@ export enum PayEnviroment {
   Mobile = 'mobile',
 }
 
-export type PayResponse = Pick<PayRequestParam, 'pg'> &
-  Partial<
-    Pick<
-      PayRequestParam,
-      | 'pg'
-      | 'payMethod'
-      | 'oid'
-      | 'amount'
-      | 'name'
-      | 'buyerName'
-      | 'buyerTel'
-      | 'buyerEmail'
-      | 'buyerAddr'
-      | 'buyerPostalcode'
-      | 'mRedirectUrl'
-    >
-  > & {
-    /** 모바일 pay(onWeb)에서 사용 */
-    action?: string;
-    /** 모바일 pay(onWeb)에서 사용 */
-    formData?: MobpayRequestParams;
-    /** 결제처리가 성공적이었는지 여부 */
-    success: boolean;
-    /** 결제처리에 실패한 경우 단축메세지 */
-    errorCode?: string;
-    /** 결제처리에 실패한 경우 상세메세지 */
-    errorMsg?: string;
-    /** 결제승인시각. UNIX timestamp */
-    paidAt?: number;
+export type PayResponse = {
+  /** 모바일 pay(onWeb)에서 사용 */
+  action?: string;
+  /** 모바일 pay(onWeb)에서 사용 */
+  formData?: MobpayRequestParams;
 
-    /** 카드사 승인번호. 신용카드결제에 한하여 제공 */
-    applyNum?: string;
-    /** 가상계좌 입금계좌번호. PG사로부터 전달된 정보 그대로 제공하므로 숫자 외 dash(-)또는 기타 기호가 포함되어 있을 수 있음 */
-    vbankNum?: string;
-    /** 가상계좌 은행명 */
-    vbankName?: string;
-    /** 가상계좌 예금주. 계약된 사업자명으로 항상 일정함. 단, 일부 PG사의 경우 null반환하므로 자체 처리 필요 */
-    vbankHolder?: string;
-    /** 가상계좌 송금자. (입력값이 존재하지 않는 경우 구매자명값과 동일하다.) */
-    vbankSender?: string;
-    /** 가상계좌 입금기한. UNIX timestamp */
-    vbankDate?: number;
-
-    /** 망취소 요청 데이터 (이니시스 전용) */
-    netCancelData?: {
-      url: string;
-      authToken: string;
-    };
-  };
+  requestId: string;
+  merchantUid: string;
+};
 
 export type PayCallback = (res: PayResponse) => void;
 
