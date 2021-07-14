@@ -73,7 +73,6 @@ export type PayRequestParam = Pick<
   /** 모바일 결제 후 이동될 주소. 모바일 결제시에만 사용됨 */
   mRedirectUrl?: string;
 
-  pg: Pg;
   /** 결제수단
    * @default Card */
   payMethod?: PayMethod;
@@ -118,7 +117,9 @@ export enum PayEnviroment {
   Mobile = 'mobile',
 }
 
-export type PayResponse = {
+export type PayResponse = Pick<PayRequestParam, 'pg' | 'mRedirectUrl'> & {
+  success: boolean;
+
   /** 모바일 pay(onWeb)에서 사용 */
   action?: string;
   /** 모바일 pay(onWeb)에서 사용 */
