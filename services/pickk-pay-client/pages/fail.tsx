@@ -19,7 +19,6 @@ export default function FailPage() {
       {
         success: false,
         pg: pg as Pg,
-        amount: Number(amount.toString()),
         errorMsg: errorMsg.toString(),
         requestId: requestId.toString(),
       },
