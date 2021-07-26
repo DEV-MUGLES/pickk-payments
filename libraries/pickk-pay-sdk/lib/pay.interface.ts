@@ -199,9 +199,11 @@ export type PayCancelResult = Pick<
 };
 
 export interface IPayment {
-  id: number;
-  /** 고유 주문번호 */
+  /** 고유 주문번호 (PK) */
   merchantUid: string;
+  createdAt: Date;
+  updatedAt: Date;
+
   status: PaymentStatus;
   env: PayEnviroment;
   /** 결제 origin (ex: https://pickk.one/orders/sheet) */
@@ -238,8 +240,6 @@ export interface IPayment {
 
   cancellations?: IPaymentCancellation[];
 
-  createdAt: Date;
-  updatedAt: Date;
   failedAt?: Date;
   paidAt?: Date;
   cancelledAt?: Date;
