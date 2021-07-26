@@ -240,6 +240,8 @@ export interface IPayment {
 
   cancellations?: IPaymentCancellation[];
 
+  failedReason?: string;
+
   failedAt?: Date;
   paidAt?: Date;
   cancelledAt?: Date;
