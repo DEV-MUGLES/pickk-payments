@@ -125,9 +125,9 @@ export class Pay {
     return dialogEle;
   }
 
-  private static removeFrame(pg: Pg) {
-    const frame = Pay.frames[pg];
-  }
+  // private static removeFrame(pg: Pg) {
+  //   const frame = Pay.frames[pg];
+  // }
 
   private static createFrame(pg: Pg) {
     const key = pg.toLowerCase();
