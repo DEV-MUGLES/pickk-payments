@@ -124,7 +124,7 @@ export type PayResponse = Pick<PayRequestParam, 'pg' | 'mRedirectUrl'> & {
         /** 에러메세지. 실패시에만 반환됩니다. */
         errorMsg?: string;
       }
-    | { success: true; merchantUid: string }
+    | { success: true; merchantUid: string; payment: IPayment }
   );
 
 export type PayCallback = (res: PayResponse) => void;
