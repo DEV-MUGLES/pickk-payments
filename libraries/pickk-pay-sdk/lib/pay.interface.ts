@@ -60,6 +60,7 @@ export enum PayMethod {
 
 export type PayRequestParam = Pick<
   IPayment,
+  | 'merchantUid'
   | 'pg'
   | 'payMethod'
   | 'name'
@@ -79,9 +80,6 @@ export type PayRequestParam = Pick<
   /** 에스크로 결제여부
    * @default false */
   escrow?: boolean;
-  /** 고유 주문번호
-   * @default `${timestamp}${getRandomString(4)}`*/
-  oid?: string;
   /** 주문명. 원활한 결제정보확인을 위해 입력 권장
    * @default 'undefined' */
   name?: string;
