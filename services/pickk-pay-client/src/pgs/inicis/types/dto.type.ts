@@ -6,6 +6,7 @@ export type InicisPrepareParam = PayRequestParam & {
 
 export type InicisPrepareRequestDto = Pick<
   IPayment,
+  | 'merchantUid'
   | 'env'
   | 'origin'
   | 'pg'
@@ -20,12 +21,12 @@ export type InicisPrepareRequestDto = Pick<
 >;
 
 export class InicisPrepareResponseDto {
-  payment: IPayment;
-
   timestamp: number;
   mid: string;
+  oid: string;
   mKey: string;
   signature: string;
+  price: number;
 
   version: '1.0';
   gopaymethod: '';

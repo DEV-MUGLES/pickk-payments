@@ -28,27 +28,25 @@ export const getGopaymethod = (payMethod: PayMethod): StdPayPayMethod => {
 export const serializeInicisStdpayParams = async (
   params: InicisPrepareParam
 ): Promise<StdPayRequestParams> => {
-  const { payment, ...inicisParams } = await requestInicisPrepare(params);
+  const inicisParams = await requestInicisPrepare(params);
 
   const stdpayParams: StdPayRequestParams = {
     ...STDPAY_BASE_PARAMS,
     ...inicisParams,
-    oid: payment.merchantUid,
-    gopaymethod: getGopaymethod(payment.payMethod),
-    goodname: payment.name,
-    price: payment.amount,
-    buyername: payment.buyerName,
-    buyertel: payment.buyerTel,
-    buyeremail: payment.buyerEmail,
+    oid: inicisParams.oid,
+    gopaymethod: getGopaymethod(params.payMethod),
+    goodname: params.name,
+    price: inicisParams.price,
+    buyername: params.buyerName,
+    buyertel: params.buyerTel,
+    buyeremail: params.buyerEmail,
     returnUrl: `${location.origin}/inicis/std/return?requestId=${params.requestId}`,
-    closeUrl: `${location.origin}/inicis/close?pg=inicis&amount=${payment.amount}&requestId=${params.requestId}&merchantUid=${payment.merchantUid}`,
+    closeUrl: `${location.origin}/inicis/close?pg=inicis&amount=${params.amount}&requestId=${params.requestId}&merchantUid=${params.merchantUid}`,
     acceptmethod: `below1000:va_receipt:SKIN(${skinColor}):popreturn:HPP(2)`,
     merchantData: encodeParamsToUrl({
       requestId: params.requestId,
-      merchantUid: payment.merchantUid,
-      amount: payment.amount,
-      userId: params.userId,
-      orderSheetUuid: params.orderSheetUuid,
+      merchantUid: params.merchantUid,
+      amount: params.amount,
     }),
     logo_url: 'https://pay.pickk.one/images/logo.png',
   };

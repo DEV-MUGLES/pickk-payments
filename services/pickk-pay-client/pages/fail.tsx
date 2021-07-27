@@ -12,7 +12,7 @@ export default function FailPage() {
       return;
     }
 
-    const { pg, amount, errorMsg, requestId } = router.query;
+    const { pg, errorMsg, requestId } = router.query;
 
     response(
       'done',

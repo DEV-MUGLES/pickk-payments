@@ -8,7 +8,6 @@ import {
   decodeUrlToParams,
   getParsedBody,
   markPaymentFailed,
-  prepareOrder,
   response,
   ResponseData,
 } from '@src/common';
@@ -50,11 +49,14 @@ export const getServerSideProps: GetServerSideProps = async ({
 
 const handleFail = async (
   result: StdPayResult,
-  skipNetCancel = false
+  skipNetCancel = false,
+  msg?: string
 ): Promise<ResponseData> => {
-  const { resultMsg: errorMsg, merchantData } = result;
-  const { requestId, merchantUid } =
-    decodeUrlToParams<StdpayMerchantData>(merchantData);
+  const { requestId, merchantUid } = decodeUrlToParams<StdpayMerchantData>(
+    result.merchantData
+  );
+
+  const errorMsg = msg ?? result.resultMsg;
 
   if (!skipNetCancel) {
     await Inicis.stdNetCancel(result.netCancelUrl, result.authToken);
@@ -73,27 +75,24 @@ const handleFail = async (
 
 const handleSuccess = async (result: StdPayResult): Promise<ResponseData> => {
   try {
-    const { requestId, userId, orderSheetUuid, merchantUid } =
-      decodeUrlToParams<StdpayMerchantData>(result.merchantData);
-
-    await prepareOrder(userId, orderSheetUuid);
+    const { requestId, merchantUid } = decodeUrlToParams<StdpayMerchantData>(
+      result.merchantData
+    );
 
     const authResult = await Inicis.stdAuth(result.authUrl, result.authToken);
 
     if (authResult.resultCode !== '0000') {
-      throw new Error('Auth 처리에 실패했습니다.');
+      return await handleFail(result, false, authResult.resultMsg);
     }
 
-    await completePayment(merchantUid, sar2cpd(authResult));
-
-    // @TODO: 주문생성 구현되는대로 교체하기
-    throw new Error('임의로 에러발생');
+    const payment = await completePayment(merchantUid, sar2cpd(authResult));
 
     return {
       success: true,
       pg: Pg.Inicis,
       requestId,
       merchantUid,
+      payment,
     };
   } catch (error) {
     return await handleFail(result);

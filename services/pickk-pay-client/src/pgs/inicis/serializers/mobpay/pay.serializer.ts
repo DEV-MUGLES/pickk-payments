@@ -59,29 +59,27 @@ const getScheme = (): string => {
 export const serializeInicisMobpayParams = async (
   params: InicisPrepareParam
 ): Promise<MobpayRequestParams> => {
-  const { payment, ...inicisParams } = await requestInicisPrepare(params);
+  const inicisParams = await requestInicisPrepare(params);
 
   const mobpayParams: MobpayRequestParams = {
     P_MID: inicisParams.mid,
-    P_OID: payment.merchantUid,
+    P_OID: inicisParams.oid,
     P_INI_PAYMENT: getMobpayMethod(params.payMethod),
-    P_AMT: payment.amount,
-    P_GOODS: payment.name,
-    P_UNAME: payment.buyerName,
-    P_MOBILE: payment.buyerTel,
-    P_EMAIL: payment.buyerEmail,
+    P_AMT: inicisParams.price,
+    P_GOODS: params.name,
+    P_UNAME: params.buyerName,
+    P_MOBILE: params.buyerTel,
+    P_EMAIL: params.buyerEmail,
     P_CHARSET: 'utf8',
     P_NEXT_URL: `${location.origin}/inicis/mob/return`,
     P_NOTI_URL: `${SERVER_URL}/inicis/mob/vbank-noti`,
     P_NOTI: encodeParamsToUrl({
       requestId: params.requestId,
       mRedirectUrl: params.mRedirectUrl,
-      name: payment.name,
-      buyerName: payment.buyerName,
-      buyerTel: payment.buyerTel,
-      oid: payment.merchantUid,
-      userId: params.userId,
-      orderSheetUuid: params.orderSheetUuid,
+      name: params.name,
+      buyerName: params.buyerName,
+      buyerTel: params.buyerTel,
+      merchantUid: params.merchantUid,
     } as MobpayNoti),
   };
 

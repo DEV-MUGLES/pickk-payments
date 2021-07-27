@@ -9,7 +9,6 @@ import {
   encodeParamsToUrl,
   getParsedBody,
   markPaymentFailed,
-  prepareOrder,
   ResponseData,
 } from '@src/common';
 import { Inicis, mar2cpd, MobpayNoti } from '@src/pgs/inicis';
@@ -61,18 +60,18 @@ const handleFail = async (
   skipNetCancel = false
 ): Promise<ResponseData> => {
   const { P_RMESG1: errorMsg, P_NOTI } = result;
-  const { requestId, oid } = decodeUrlToParams<MobpayNoti>(P_NOTI);
+  const { requestId, merchantUid } = decodeUrlToParams<MobpayNoti>(P_NOTI);
 
   if (!skipNetCancel) {
     await Inicis.mobNetCancel(
       result.P_REQ_URL,
       result.P_TID,
       result.P_AMT,
-      oid
+      merchantUid
     );
   }
 
-  await markPaymentFailed(oid);
+  await markPaymentFailed(merchantUid);
 
   return {
     success: false,
@@ -85,13 +84,9 @@ const handleFail = async (
 
 const handleSuccess = async (result: MobpayResult): Promise<ResponseData> => {
   try {
-    const {
-      userId,
-      orderSheetUuid,
-      oid: merchantUid,
-      requestId,
-    } = decodeUrlToParams<MobpayNoti>(result.P_NOTI);
-    await prepareOrder(userId, orderSheetUuid);
+    const { merchantUid, requestId } = decodeUrlToParams<MobpayNoti>(
+      result.P_NOTI
+    );
 
     const authResult = await Inicis.mobAuth(result.P_REQ_URL, result.P_TID);
 
@@ -99,16 +94,14 @@ const handleSuccess = async (result: MobpayResult): Promise<ResponseData> => {
       throw new Error('Auth 처리에 실패했습니다.');
     }
 
-    await completePayment(merchantUid, mar2cpd(authResult));
-
-    // @TODO: 주문생성 구현되는대로 교체하기
-    throw new Error('임의로 에러발생');
+    const payment = await completePayment(merchantUid, mar2cpd(authResult));
 
     return {
       success: true,
       pg: Pg.Inicis,
       requestId,
       merchantUid,
+      payment,
     };
   } catch (error) {
     return await handleFail(result);
