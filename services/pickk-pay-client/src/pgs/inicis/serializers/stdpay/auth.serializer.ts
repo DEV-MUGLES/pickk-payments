@@ -21,9 +21,7 @@ export const sar2cpd = (sar: StdPayAuthResult): CompletePaymentDto => {
     result.vbankDate = dayjs(
       `${sar.VACT_Date}${sar.VACT_Time}`,
       'YYYYMMDDHHmmss'
-    )
-      .unix()
-      .toString();
+    ).toDate();
   }
 
   return result;

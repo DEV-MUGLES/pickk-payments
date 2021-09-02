@@ -21,9 +21,7 @@ export const mar2cpd = (mar: MobpayAuthResult): CompletePaymentDto => {
     result.vbankDate = dayjs(
       `${mar.P_VACT_DATE}${mar.P_VACT_TIME}`,
       'YYYYMMDDHHmmss'
-    )
-      .unix()
-      .toString();
+    ).toDate();
   }
 
   return result;
