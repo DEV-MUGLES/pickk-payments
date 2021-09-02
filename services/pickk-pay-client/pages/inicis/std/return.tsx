@@ -95,6 +95,7 @@ const handleSuccess = async (result: StdPayResult): Promise<ResponseData> => {
       payment,
     };
   } catch (error) {
+    console.log(error);
     return await handleFail(result);
   }
 };
