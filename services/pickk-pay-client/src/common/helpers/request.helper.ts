@@ -31,7 +31,7 @@ export const completePayment = async (
   dto: CompletePaymentDto
 ): Promise<IPayment> =>
   (
-    await axios.post(`${SERVER_URL}/payments/${merchantUid}`, dto, {
+    await axios.post(`${SERVER_URL}/payments/${merchantUid}/complete`, dto, {
       headers: SUPER_SECRET_HEADERS,
     })
   ).data;
