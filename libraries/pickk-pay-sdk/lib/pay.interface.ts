@@ -127,7 +127,7 @@ export type PayResponse = Pick<PayRequestParam, 'pg' | 'mRedirectUrl'> & {
     | { success: true; merchantUid: string; payment: IPayment }
   );
 
-export type PayCallback = (res: PayResponse) => void;
+export type PayCallback = (res: PayResponse) => void | Promise<void>;
 
 export type PayMessage = {
   origin: string;

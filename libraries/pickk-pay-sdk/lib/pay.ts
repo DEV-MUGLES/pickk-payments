@@ -69,7 +69,7 @@ export class Pay {
 
   // 이후는 모두 private function입니다.
 
-  private static onMessage(e: MessageEvent<PayMessage>) {
+  private static async onMessage(e: MessageEvent<PayMessage>) {
     if (e.origin !== Pay.serviceUrl) {
       return false;
     }
@@ -87,7 +87,7 @@ export class Pay {
       return;
     }
 
-    Pay.callbacks
+    await Pay.callbacks
       .find((cb) => cb.requestId === data.requestId)
       ?.callback(data.data);
 
