@@ -88,7 +88,7 @@ export class Pay {
     }
 
     await Pay.callbacks
-      .find((cb) => cb.requestId === data.requestId)
+      .find((cb) => cb.requestId === data.data.requestId)
       ?.callback(data.data);
 
     Pay.close();
