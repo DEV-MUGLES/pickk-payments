@@ -1,6 +1,6 @@
 {
   "name": "@pickk/pay",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "PICKK Payment module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -36,7 +36,8 @@
     "coverage": "jest --coverage"
   },
   "peerDependencies": {
-    "axios": "*"
+    "axios": "*",
+    "@babel/runtime": "*"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",
