@@ -1,6 +1,6 @@
 {
   "name": "@pickk/pay",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "PICKK Payment module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
