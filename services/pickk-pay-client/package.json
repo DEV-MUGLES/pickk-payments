@@ -7,11 +7,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "format": "prettier --write **/*.{ts,json}",
     "lint": "next lint",
     "tsc": "tsc",
     "jest": "jest",
-    "test": "npm run format && npm run lint && npm run tsc && npm run jest && npm run build"
+    "test": "npm run lint && npm run tsc && npm run jest && npm run build"
   },
   "repository": {
     "type": "git",
