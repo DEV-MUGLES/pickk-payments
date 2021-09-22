@@ -6,17 +6,17 @@ export enum Pg {
 
 export enum PaymentStatus {
   /** 미결제 */
-  Pending = 'pending',
+  Pending = 'Pending',
   /** 가상계좌 입금대기 */
-  VbankReady = 'vbank_ready',
+  VbankReady = 'VbankReady',
   /** 결제완료 */
-  Paid = 'paid',
+  Paid = 'Paid',
   /** 전액취소 */
-  Cancelled = 'cancelled',
+  Cancelled = 'Cancelled',
   /** 부분취소 */
-  PartialCancelled = 'partial_cancelled',
+  PartialCancelled = 'PartialCancelled',
   /** 결제실패 */
-  Failed = 'failed',
+  Failed = 'Failed',
 }
 
 export enum PayMethod {
@@ -106,8 +106,8 @@ export type PayRequestParam = Pick<
 };
 
 export enum PayEnviroment {
-  Pc = 'pc',
-  Mobile = 'mobile',
+  Pc = 'Pc',
+  Mobile = 'Mobile',
 }
 
 export type PayResponse = Pick<PayRequestParam, 'pg' | 'mRedirectUrl'> & {
@@ -241,8 +241,8 @@ export interface IPayment {
 }
 
 export enum PaymentCancellationType {
-  Cancel = 'cancel',
-  PatialCancel = 'partial_cancel',
+  Cancel = 'Cancel',
+  PatialCancel = 'PatialCancel',
 }
 
 export interface IPaymentCancellation {
