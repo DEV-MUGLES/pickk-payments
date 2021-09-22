@@ -23,12 +23,11 @@
   "homepage": "https://github.com/DEV-MUGLES/pickk-payments#readme",
   "scripts": {
     "build": "rimraf -rf dist && babel lib --out-dir dist --extensions '.ts' && tsc -p ./tsconfig.json",
-    "format": "prettier --write **/*.{ts,json} --ignore-path ./.prettierignore",
     "lint": "eslint \"lib/**/*.ts\" --fix",
     "type-check": "tsc --noEmit --emitDeclarationOnly false",
     "prepublish:next": "npm run build",
     "publish:next": "npm publish --access public --tag next",
-    "prepublish:npm": "npm run format && npm run lint && npm run type-check && npm run test && npm run build",
+    "prepublish:npm": "npm run lint && npm run type-check && npm run test && npm run build",
     "publish:npm": "npm publish --access public",
     "prerelease": "npm run build",
     "test": "jest",
