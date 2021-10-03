@@ -9,7 +9,11 @@ import {
   MobpayNetCancelResult,
 } from 'inicis';
 
-import { encodeParamsToUrl, getQUeryQuestionMark } from '@src/common';
+import {
+  decodeUrlToParams,
+  encodeParamsToUrl,
+  getQUeryQuestionMark,
+} from '@src/common';
 import { InicisPrepareRequestDto, InicisPrepareResponseDto } from '../types';
 
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
@@ -65,34 +69,35 @@ export const requestInicisMobAuth = async (
   url: string,
   mid: string,
   tid: string
-): Promise<MobpayAuthResult> =>
-  (
-    await axios.post<MobpayAuthResult>(
-      url.concat(
-        `${getQUeryQuestionMark(url)}${encodeParamsToUrl({
-          P_MID: mid,
-          P_TID: tid,
-        } as MobpayAuthInput)}`
-      ),
-      {
-        headers: {
-          'Content-type': 'application/x-www-form-urlencoded', // 필수
-        },
-      }
-    )
-  ).data;
+): Promise<MobpayAuthResult> => {
+  const { data } = await axios.post<string>(
+    url.concat(
+      `${getQUeryQuestionMark(url)}${encodeParamsToUrl({
+        P_MID: mid,
+        P_TID: tid,
+      } as MobpayAuthInput)}`
+    ),
+    {
+      headers: {
+        'Content-type': 'application/x-www-form-urlencoded', // 필수
+      },
+    }
+  );
+  return decodeUrlToParams(data);
+};
 
 export const requestInicisMobNetCancel = async (
   url: string,
   input: MobpayNetCancelInput
-): Promise<MobpayNetCancelResult> =>
-  (
-    await axios.post<MobpayNetCancelResult>(
-      url.concat(`${getQUeryQuestionMark(url)}${encodeParamsToUrl(input)}`),
-      {
-        headers: {
-          'Content-type': 'application/x-www-form-urlencoded', // 필수
-        },
-      }
-    )
-  ).data;
+): Promise<MobpayNetCancelResult> => {
+  const { data } = await axios.post<string>(
+    url.concat(`${getQUeryQuestionMark(url)}${encodeParamsToUrl(input)}`),
+    {
+      headers: {
+        'Content-type': 'application/x-www-form-urlencoded', // 필수
+      },
+    }
+  );
+
+  return decodeUrlToParams(data);
+};

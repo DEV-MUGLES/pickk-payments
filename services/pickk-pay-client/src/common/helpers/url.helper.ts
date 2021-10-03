@@ -3,6 +3,7 @@ export const getQUeryQuestionMark = (url: string): string =>
 
 export const encodeParamsToUrl = (params: Record<string, unknown>): string =>
   Object.entries(params)
+    .filter(([key, value]) => key != null && value != null)
     .map(
       ([key, value]) =>
         `${encodeURIComponent(key)}=${encodeURIComponent(value.toString())}`

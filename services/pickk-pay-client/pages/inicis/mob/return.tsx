@@ -15,10 +15,21 @@ import { Inicis, mar2cpd, MobpayNoti } from '@src/pgs/inicis';
 
 export default function InicisMobReturnPage(props: ResponseData) {
   useEffect(() => {
-    const { mRedirectUrl, ...extraParams } = props;
+    const { mRedirectUrl } = props;
 
-    window.location.href =
-      mRedirectUrl + '?' + encodeParamsToUrl({ ...extraParams });
+    if (props.success) {
+      window.location.href =
+        mRedirectUrl +
+        '?' +
+        encodeParamsToUrl({
+          success: props.success,
+          merchantUid: props.merchantUid,
+          ...props.payment,
+        });
+    } else {
+      window.location.href =
+        mRedirectUrl + '?' + encodeParamsToUrl({ success: false });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props]);
 
@@ -52,6 +63,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   }
 
   props.mRedirectUrl = mRedirectUrl;
+  console.log(props);
   return { props };
 };
 
@@ -91,6 +103,7 @@ const handleSuccess = async (result: MobpayResult): Promise<ResponseData> => {
     const authResult = await Inicis.mobAuth(result.P_REQ_URL, result.P_TID);
 
     if (authResult.P_STATUS !== '00') {
+      console.log(authResult);
       throw new Error('Auth 처리에 실패했습니다.');
     }
 
@@ -104,6 +117,7 @@ const handleSuccess = async (result: MobpayResult): Promise<ResponseData> => {
       payment,
     };
   } catch (error) {
+    console.log(error);
     return await handleFail(result);
   }
 };
