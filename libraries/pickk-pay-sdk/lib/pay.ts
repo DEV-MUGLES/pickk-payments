@@ -45,7 +45,7 @@ export class Pay {
     }
 
     const _param = { ...defaultParam, ...param };
-    const requestId = 'req_' + new Date().getTime();
+    const requestId = 'req' + new Date().getTime();
     Pay.callbacks.push({ requestId, callback: cb });
 
     const key = _param.pg.toLowerCase();
