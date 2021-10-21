@@ -38,6 +38,9 @@
     "axios": "*",
     "@babel/runtime": "*"
   },
+  "dependencies": {
+    "inicis": "^1.2.9"
+  },
   "devDependencies": {
     "@babel/cli": "^7.14.5",
     "@babel/core": "^7.14.6",
@@ -75,8 +78,5 @@
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "coverageDirectory": "./coverage"
-  },
-  "dependencies": {
-    "inicis": "^1.1.2"
   }
 }
