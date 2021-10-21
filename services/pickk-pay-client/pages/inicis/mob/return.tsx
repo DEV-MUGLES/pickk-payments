@@ -41,7 +41,6 @@ export const getServerSideProps: GetServerSideProps = async ({
   query,
 }) => {
   const payResult = await getParsedBody<MobpayResult>(req);
-  const { mRedirectUrl } = decodeUrlToParams<MobpayNoti>(payResult.P_NOTI);
 
   let props: ResponseData = null;
 
@@ -62,6 +61,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     };
   }
 
+  const { mRedirectUrl } = decodeUrlToParams<MobpayNoti>(payResult.P_NOTI);
   props.mRedirectUrl = mRedirectUrl;
   console.log(props);
   return { props };

@@ -13,6 +13,10 @@ export const encodeParamsToUrl = (params: Record<string, unknown>): string =>
 export const decodeUrlToParams = <T = Record<string, unknown>>(
   url: string
 ): T => {
+  if (!url) {
+    return {} as T;
+  }
+
   const result = {};
   url
     .replace(/^\?/, '')
